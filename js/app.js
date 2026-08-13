@@ -1,34 +1,17 @@
-// Auronex main script
-
-console.log("Auronex loaded");
+console.log("Auronex v2 loaded");
 
 
-const cards = document.querySelectorAll(".card");
+const buttons = document.querySelectorAll(".main-btn");
 
 
-cards.forEach((card,index)=>{
-
-    card.style.animation =
-    `show .8s ${index * 0.2}s both`;
-
-});
+buttons.forEach(button => {
 
 
-// плавный эффект кнопки
+    button.addEventListener("mouseenter", ()=>{
 
-const button = document.querySelector("button");
+        console.log("Hover:", button.innerText);
 
-
-if(button){
-
-button.addEventListener("click",()=>{
-
-    document
-    .querySelector(".products")
-    .scrollIntoView({
-        behavior:"smooth"
     });
 
-});
 
-}
+});
