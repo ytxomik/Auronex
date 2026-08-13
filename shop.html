@@ -1,140 +1,128 @@
-<!DOCTYPE html>
-<html lang="ru">
+/* SHOP */
 
-<head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+.products {
 
-<title>Auronex Store</title>
+    display:flex;
 
-<link rel="stylesheet" href="css/style.css">
+    justify-content:center;
 
-</head>
+    gap:35px;
 
+    padding:60px 8%;
 
-<body>
+    flex-wrap:wrap;
 
+}
 
-<header>
 
-<div class="logo">
-AURONEX
-</div>
 
+.product-card {
 
-<nav>
 
-<a href="index.html">Главная</a>
-<a href="shop.html">Магазин</a>
-<a href="#">Войти</a>
+    width:330px;
 
-</nav>
 
-</header>
+    padding:40px;
 
 
+    text-align:center;
 
-<section class="hero">
 
-<div class="badge">
-AURONEX STORE
-</div>
+    border-radius:30px;
 
 
-<h1>
-STORE
-</h1>
+    background:rgba(255,255,255,.06);
 
 
-<p>
-Цифровые товары нового поколения
-</p>
+    border:1px solid rgba(255,255,255,.12);
 
 
-</section>
+    backdrop-filter:blur(20px);
 
 
+    transition:.4s;
 
 
-<section class="features">
+}
 
 
 
-<div class="feature">
+.product-card:hover {
 
-<h2>💻</h2>
 
-<h3>Software Pro</h3>
+    transform:translateY(-15px);
 
-<p>
-Профессиональное программное обеспечение
-</p>
 
+    border-color:#c084fc;
 
-<button>
-Купить
-</button>
 
-</div>
+    box-shadow:
 
+    0 20px 60px rgba(168,85,247,.35);
 
 
+}
 
-<div class="feature">
 
-<h2>🔑</h2>
 
-<h3>License Keys</h3>
+.icon {
 
-<p>
-Мгновенная активация ключей
-</p>
 
+    font-size:60px;
 
-<button>
-Купить
-</button>
+    margin-bottom:20px;
 
-</div>
 
+}
 
 
 
-<div class="feature">
+.product-card h2 {
 
-<h2>⚡</h2>
 
-<h3>Subscriptions</h3>
+    font-size:28px;
 
-<p>
-Подписки и цифровые услуги
-</p>
 
+}
 
-<button>
-Купить
-</button>
 
-</div>
 
+.product-card p {
 
 
-</section>
+    color:#aaa;
 
+    min-height:50px;
 
 
-<footer>
+}
 
-© 2026 Auronex
 
-</footer>
 
+.price {
 
 
-<script src="js/app.js"></script>
+    margin:25px;
 
 
-</body>
+    font-size:32px;
 
-</html>
+
+    color:#c084fc;
+
+
+    font-weight:900;
+
+
+}
+
+
+
+.product-card button {
+
+
+    width:100%;
+
+
+}
