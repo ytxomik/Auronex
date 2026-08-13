@@ -1,1 +1,227 @@
+* {
+    box-sizing: border-box;
+}
 
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(168,85,247,.25), transparent 35%),
+        radial-gradient(circle at 80% 30%, rgba(124,58,237,.2), transparent 35%),
+        #050507;
+    color: white;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+
+/* Верхняя панель */
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 8%;
+    background: rgba(0,0,0,.35);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+
+.logo {
+    font-size: 30px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: #c084fc;
+    animation: float 3s infinite ease-in-out;
+}
+
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 25px;
+    transition: .3s;
+}
+
+
+nav a:hover {
+    color: #c084fc;
+}
+
+
+/* Главный экран */
+
+.hero {
+    min-height: 750px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px;
+}
+
+
+.badge {
+    padding: 10px 25px;
+    border-radius: 50px;
+    background: rgba(168,85,247,.2);
+    border: 1px solid #a855f7;
+    animation: float 3s infinite;
+}
+
+
+.hero h1 {
+    font-size: clamp(60px,10vw,120px);
+    margin: 30px 0;
+
+    background: linear-gradient(
+        90deg,
+        white,
+        #c084fc
+    );
+
+    -webkit-background-clip: text;
+    color: transparent;
+
+    animation: show 1s;
+}
+
+
+.hero p {
+    font-size: 22px;
+    color: #aaa;
+}
+
+
+/* Кнопка */
+
+button {
+    margin-top: 30px;
+    padding: 18px 40px;
+
+    border: none;
+    border-radius: 20px;
+
+    background: #8b5cf6;
+    color:white;
+
+    font-size:16px;
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+
+button:hover {
+
+    transform:translateY(-5px);
+
+    box-shadow:
+    0 20px 50px rgba(139,92,246,.6);
+
+}
+
+
+
+/* Товары */
+
+.products {
+
+    display:flex;
+    justify-content:center;
+    gap:30px;
+    flex-wrap:wrap;
+
+    padding:50px 8%;
+
+}
+
+
+
+.card {
+
+    width:300px;
+
+    padding:40px;
+
+    background:
+    rgba(255,255,255,.06);
+
+    backdrop-filter:blur(15px);
+
+    border-radius:30px;
+
+    border:1px solid rgba(255,255,255,.1);
+
+    transition:.35s;
+
+    text-align:center;
+
+}
+
+
+.card:hover {
+
+    transform:
+    translateY(-15px)
+    scale(1.03);
+
+
+    border-color:#a855f7;
+
+
+    box-shadow:
+    0 20px 60px rgba(168,85,247,.3);
+
+}
+
+
+.card b {
+
+    display:block;
+
+    margin-top:15px;
+
+    font-size:25px;
+
+    color:#c084fc;
+
+}
+
+
+
+/* Анимации */
+
+
+@keyframes float {
+
+    50% {
+        transform:translateY(-8px);
+    }
+
+}
+
+
+
+@keyframes show {
+
+    from {
+
+        opacity:0;
+
+        transform:translateY(40px);
+
+    }
+
+
+    to {
+
+        opacity:1;
+
+        transform:none;
+
+    }
+
+}
