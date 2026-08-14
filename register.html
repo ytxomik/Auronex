@@ -23,41 +23,37 @@
 
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
-        html {
-            scroll-behavior: smooth;
+
+        html,
+        body {
+            min-height: 100%;
         }
+
 
         body {
-            margin: 0;
             min-height: 100vh;
 
             font-family:
-                Inter,
-                -apple-system,
-                BlinkMacSystemFont,
-                "Segoe UI",
                 Arial,
+                Helvetica,
                 sans-serif;
 
             color: #fff;
 
             background:
                 radial-gradient(
-                    circle at 50% 15%,
-                    rgba(124, 58, 237, .22),
-                    transparent 32%
+                    circle at 50% 10%,
+                    rgba(124,58,237,.18),
+                    transparent 35%
                 ),
                 radial-gradient(
-                    circle at 15% 80%,
-                    rgba(88, 28, 135, .15),
+                    circle at 10% 80%,
+                    rgba(168,85,247,.10),
                     transparent 30%
-                ),
-                radial-gradient(
-                    circle at 85% 75%,
-                    rgba(168, 85, 247, .10),
-                    transparent 28%
                 ),
                 #050507;
 
@@ -65,15 +61,15 @@
         }
 
 
-        /* ==================================================
+        /* ================================================
            BACKGROUND
-           ================================================== */
+           ================================================ */
 
         .background-glow {
             position: fixed;
 
-            width: 600px;
-            height: 600px;
+            width: 650px;
+            height: 650px;
 
             left: 50%;
             top: 50%;
@@ -86,24 +82,25 @@
             background:
                 radial-gradient(
                     circle,
-                    rgba(139, 92, 246, .18),
+                    rgba(139,92,246,.16),
                     transparent 68%
                 );
 
-            filter: blur(20px);
+            filter: blur(30px);
 
             pointer-events: none;
 
             animation:
-                glowMove 8s ease-in-out infinite alternate;
+                glowMove 8s ease-in-out
+                infinite alternate;
         }
 
 
-        .background-circle {
+        .background-ring {
             position: fixed;
 
-            width: 700px;
-            height: 700px;
+            width: 850px;
+            height: 850px;
 
             left: 50%;
             top: 50%;
@@ -115,39 +112,33 @@
 
             border:
                 1px solid
-                rgba(168, 85, 247, .06);
-
-            box-shadow:
-                0 0 120px
-                rgba(124, 58, 237, .08);
+                rgba(168,85,247,.06);
 
             pointer-events: none;
 
             animation:
-                rotateCircle 25s linear infinite;
+                ringRotate 30s linear infinite;
         }
 
 
-        /* ==================================================
+        /* ================================================
            HEADER
-           ================================================== */
+           ================================================ */
 
-        .site-header {
+        .header {
             position: relative;
 
             z-index: 20;
 
-            width: 100%;
             height: 76px;
 
             display: flex;
-
             align-items: center;
 
             padding: 0 32px;
 
             background:
-                rgba(5, 5, 8, .78);
+                rgba(5,5,8,.82);
 
             border-bottom:
                 1px solid
@@ -155,20 +146,16 @@
 
             backdrop-filter:
                 blur(20px);
-
-            -webkit-backdrop-filter:
-                blur(20px);
         }
 
 
         .brand {
             display: flex;
-
             align-items: center;
 
             gap: 10px;
 
-            color: white;
+            color: #fff;
 
             text-decoration: none;
         }
@@ -182,8 +169,8 @@
 
             filter:
                 drop-shadow(
-                    0 0 12px
-                    rgba(139,92,246,.75)
+                    0 0 14px
+                    rgba(168,85,247,.75)
                 );
 
             transition: .3s;
@@ -195,36 +182,36 @@
 
             filter:
                 drop-shadow(
-                    0 0 22px
+                    0 0 24px
                     rgba(168,85,247,1)
                 );
         }
 
 
-        .brand-text {
+        .brand-name {
             font-size: 20px;
 
             font-weight: 900;
 
             letter-spacing: 3px;
-
-            color: #fff;
         }
 
 
-        .main-nav {
+        .nav {
             display: flex;
 
             align-items: center;
 
-            gap: 28px;
+            gap: 25px;
 
-            margin-left: 50px;
+            margin-left: auto;
+
+            margin-right: 60px;
         }
 
 
-        .main-nav a {
-            color: #a1a1aa;
+        .nav a {
+            color: #9999a3;
 
             text-decoration: none;
 
@@ -234,96 +221,21 @@
         }
 
 
-        .main-nav a:hover {
+        .nav a:hover {
             color: #fff;
         }
 
 
-        .header-actions {
-            display: flex;
-
-            align-items: center;
-
-            gap: 9px;
-
-            margin-left: auto;
+        .nav .active {
+            color: #c084fc;
         }
 
 
-        .login-btn,
-        .register-btn {
-            height: 40px;
+        /* ================================================
+           PAGE
+           ================================================ */
 
-            display: inline-flex;
-
-            align-items: center;
-            justify-content: center;
-
-            padding: 0 16px;
-
-            border-radius: 11px;
-
-            text-decoration: none;
-
-            font-size: 14px;
-
-            transition: .3s;
-        }
-
-
-        .login-btn {
-            color: #fff;
-
-            border:
-                1px solid
-                rgba(255,255,255,.13);
-
-            background:
-                rgba(255,255,255,.04);
-        }
-
-
-        .login-btn:hover {
-            border-color: #a855f7;
-
-            background:
-                rgba(168,85,247,.09);
-        }
-
-
-        .register-btn {
-            color: #fff;
-
-            font-weight: 700;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #7c3aed,
-                    #a855f7
-                );
-
-            box-shadow:
-                0 8px 25px
-                rgba(124,58,237,.28);
-        }
-
-
-        .register-btn:hover {
-            transform:
-                translateY(-2px);
-
-            box-shadow:
-                0 12px 35px
-                rgba(168,85,247,.45);
-        }
-
-
-        /* ==================================================
-           MAIN
-           ================================================== */
-
-        .register-page {
+        .page {
             position: relative;
 
             z-index: 5;
@@ -338,24 +250,24 @@
             justify-content: center;
 
             padding:
-                70px 20px 90px;
+                70px 20px 100px;
         }
 
 
-        /* ==================================================
-           CARD
-           ================================================== */
+        /* ================================================
+           REGISTER CARD
+           ================================================ */
 
         .register-card {
             position: relative;
 
             width: 100%;
 
-            max-width: 500px;
+            max-width: 470px;
 
             padding: 42px;
 
-            border-radius: 28px;
+            border-radius: 30px;
 
             background:
                 linear-gradient(
@@ -371,17 +283,14 @@
             backdrop-filter:
                 blur(25px);
 
-            -webkit-backdrop-filter:
-                blur(25px);
-
             box-shadow:
-                0 30px 100px
-                rgba(0,0,0,.45),
-                0 0 70px
-                rgba(124,58,237,.10);
+                0 35px 100px
+                rgba(0,0,0,.45);
 
             animation:
                 cardAppear .7s ease-out;
+
+            overflow: hidden;
         }
 
 
@@ -390,50 +299,45 @@
 
             position: absolute;
 
-            inset: -1px;
+            width: 240px;
+            height: 240px;
 
-            border-radius: 28px;
+            left: 50%;
+            top: -170px;
 
-            padding: 1px;
+            transform:
+                translateX(-50%);
+
+            border-radius: 50%;
 
             background:
-                linear-gradient(
-                    135deg,
-                    rgba(192,132,252,.30),
-                    transparent 35%,
-                    transparent 65%,
-                    rgba(124,58,237,.18)
-                );
+                rgba(168,85,247,.18);
 
-            -webkit-mask:
-                linear-gradient(#fff 0 0) content-box,
-                linear-gradient(#fff 0 0);
-
-            -webkit-mask-composite:
-                xor;
-
-            mask-composite: exclude;
+            filter: blur(45px);
 
             pointer-events: none;
         }
 
 
-        /* ==================================================
+        /* ================================================
            CARD HEADER
-           ================================================== */
+           ================================================ */
 
-        .register-logo {
-            width: 70px;
-            height: 70px;
+        .register-icon {
+            position: relative;
+
+            width: 76px;
+            height: 76px;
 
             display: flex;
 
             align-items: center;
             justify-content: center;
 
-            margin: 0 auto 22px;
+            margin:
+                0 auto 22px;
 
-            border-radius: 20px;
+            border-radius: 22px;
 
             background:
                 rgba(124,58,237,.10);
@@ -444,94 +348,59 @@
 
             box-shadow:
                 0 15px 40px
-                rgba(124,58,237,.18);
+                rgba(124,58,237,.15);
+
+            font-size: 34px;
         }
 
 
-        .register-logo img {
-            width: 50px;
-            height: 50px;
-
-            object-fit: contain;
-
-            filter:
-                drop-shadow(
-                    0 0 12px
-                    rgba(168,85,247,.8)
-                );
-        }
-
-
-        .register-title {
-            margin: 0;
+        .register-card h1 {
+            position: relative;
 
             text-align: center;
 
-            font-size: 34px;
+            font-size: 32px;
 
             font-weight: 900;
 
-            letter-spacing: -.5px;
-
-            background:
-                linear-gradient(
-                    180deg,
-                    #fff,
-                    #d8b4fe
-                );
-
-            -webkit-background-clip: text;
-
-            background-clip: text;
-
-            color: transparent;
+            margin-bottom: 10px;
         }
 
 
         .register-description {
-            margin:
-                12px auto 32px;
-
-            max-width: 390px;
+            position: relative;
 
             text-align: center;
 
-            color: #8f8f99;
+            color: #85858f;
 
             font-size: 14px;
 
             line-height: 1.6;
+
+            margin-bottom: 32px;
         }
 
 
-        /* ==================================================
+        /* ================================================
            FORM
-           ================================================== */
+           ================================================ */
 
-        .register-form {
-            display: flex;
-
-            flex-direction: column;
-
-            gap: 18px;
+        .form-group {
+            margin-bottom: 19px;
         }
 
 
-        .field {
-            display: flex;
+        .form-group label {
+            display: block;
 
-            flex-direction: column;
+            margin-bottom: 8px;
 
-            gap: 8px;
-        }
-
-
-        .field label {
             color: #d4d4d8;
 
             font-size: 13px;
 
-            font-weight: 600;
+            font-weight: 700;
         }
 
 
@@ -549,7 +418,7 @@
             transform:
                 translateY(-50%);
 
-            color: #71717a;
+            color: #777782;
 
             font-size: 16px;
 
@@ -557,13 +426,13 @@
         }
 
 
-        .field input {
+        .form-group input {
             width: 100%;
 
-            height: 50px;
+            height: 51px;
 
             padding:
-                0 15px 0 43px;
+                0 16px 0 45px;
 
             border-radius: 13px;
 
@@ -572,7 +441,7 @@
             color: #fff;
 
             background:
-                rgba(0,0,0,.25);
+                rgba(0,0,0,.22);
 
             border:
                 1px solid
@@ -580,22 +449,16 @@
 
             font-size: 14px;
 
-            transition: .3s;
+            transition: .25s;
         }
 
 
-        .field input::placeholder {
+        .form-group input::placeholder {
             color: #55555f;
         }
 
 
-        .field input:hover {
-            border-color:
-                rgba(168,85,247,.25);
-        }
-
-
-        .field input:focus {
+        .form-group input:focus {
             border-color:
                 rgba(168,85,247,.75);
 
@@ -603,16 +466,87 @@
                 rgba(124,58,237,.055);
 
             box-shadow:
-                0 0 0 3px
-                rgba(168,85,247,.09),
-                0 0 25px
-                rgba(124,58,237,.10);
+                0 0 0 4px
+                rgba(168,85,247,.08);
         }
 
 
-        /* ==================================================
-           TERMS
-           ================================================== */
+        /* ================================================
+           PASSWORD
+           ================================================ */
+
+        .password-toggle {
+            position: absolute;
+
+            right: 14px;
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            border: 0;
+
+            background: transparent;
+
+            color: #777782;
+
+            cursor: pointer;
+
+            font-size: 15px;
+
+            padding: 5px;
+        }
+
+
+        .password-toggle:hover {
+            color: #c084fc;
+        }
+
+
+        .password-input {
+            padding-right: 48px !important;
+        }
+
+
+        /* ================================================
+           PASSWORD STRENGTH
+           ================================================ */
+
+        .password-strength {
+            display: flex;
+
+            gap: 5px;
+
+            margin-top: 9px;
+        }
+
+
+        .strength-line {
+            height: 3px;
+
+            flex: 1;
+
+            border-radius: 10px;
+
+            background:
+                rgba(255,255,255,.08);
+
+            transition: .3s;
+        }
+
+
+        .strength-text {
+            margin-top: 7px;
+
+            color: #666671;
+
+            font-size: 11px;
+        }
+
+
+        /* ================================================
+           CHECKBOX
+           ================================================ */
 
         .terms {
             display: flex;
@@ -621,7 +555,8 @@
 
             gap: 10px;
 
-            margin-top: 2px;
+            margin:
+                22px 0;
         }
 
 
@@ -631,14 +566,14 @@
 
             margin-top: 1px;
 
-            accent-color: #a855f7;
+            accent-color: #8b5cf6;
 
             cursor: pointer;
         }
 
 
         .terms label {
-            color: #777781;
+            color: #777782;
 
             font-size: 12px;
 
@@ -649,7 +584,7 @@
 
 
         .terms a {
-            color: #c084fc;
+            color: #b47cff;
 
             text-decoration: none;
         }
@@ -660,16 +595,14 @@
         }
 
 
-        /* ==================================================
+        /* ================================================
            REGISTER BUTTON
-           ================================================== */
+           ================================================ */
 
-        .create-account {
+        .register-button {
             width: 100%;
 
             height: 53px;
-
-            margin-top: 4px;
 
             border: 0;
 
@@ -684,7 +617,7 @@
                     #a855f7
                 );
 
-            font-size: 15px;
+            font-size: 14px;
 
             font-weight: 800;
 
@@ -692,83 +625,243 @@
 
             box-shadow:
                 0 12px 35px
-                rgba(124,58,237,.28);
+                rgba(124,58,237,.25);
 
             transition: .3s;
         }
 
 
-        .create-account:hover {
+        .register-button:hover {
             transform:
                 translateY(-2px);
 
             box-shadow:
-                0 17px 45px
-                rgba(168,85,247,.45);
+                0 18px 45px
+                rgba(168,85,247,.42);
         }
 
 
-        .create-account:active {
+        .register-button:active {
             transform:
                 translateY(0);
         }
 
 
-        /* ==================================================
-           LOGIN LINK
-           ================================================== */
+        .register-button:disabled {
+            opacity: .55;
 
-        .already-account {
-            margin:
-                24px 0 0;
+            cursor: not-allowed;
+
+            transform: none;
+
+            box-shadow: none;
+        }
+
+
+        /* ================================================
+           LOGIN LINK
+           ================================================ */
+
+        .login-link {
+            margin-top: 25px;
 
             text-align: center;
 
-            color: #71717a;
+            color: #70707a;
 
             font-size: 13px;
         }
 
 
-        .already-account a {
+        .login-link a {
             color: #c084fc;
 
             text-decoration: none;
 
-            font-weight: 600;
+            font-weight: 700;
         }
 
 
-        .already-account a:hover {
-            color: #d8b4fe;
-
+        .login-link a:hover {
             text-decoration: underline;
         }
 
 
-        /* ==================================================
-           FOOTER
-           ================================================== */
+        /* ================================================
+           EMAIL VERIFICATION
+           ================================================ */
 
-        .page-footer {
-            position: relative;
+        .verification {
+            display: none;
 
-            z-index: 5;
+            animation:
+                fadeIn .4s ease;
+        }
 
-            padding:
-                0 20px 30px;
+
+        .verification.active {
+            display: block;
+        }
+
+
+        .verification-title {
+            text-align: center;
+
+            font-size: 22px;
+
+            font-weight: 800;
+
+            margin-bottom: 10px;
+        }
+
+
+        .verification-text {
+            text-align: center;
+
+            color: #85858f;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+
+            margin-bottom: 25px;
+        }
+
+
+        .verification-email {
+            color: #c084fc;
+
+            font-weight: 700;
+        }
+
+
+        .code-input {
+            width: 100%;
+
+            height: 62px;
 
             text-align: center;
 
-            color: #44444c;
+            letter-spacing: 12px;
+
+            padding-left: 20px !important;
+
+            font-size: 24px !important;
+
+            font-weight: 800;
+        }
+
+
+        .resend {
+            margin-top: 18px;
+
+            text-align: center;
+
+            color: #686872;
 
             font-size: 12px;
         }
 
 
-        /* ==================================================
+        .resend button {
+            border: 0;
+
+            background: transparent;
+
+            color: #c084fc;
+
+            cursor: pointer;
+
+            font-size: 12px;
+        }
+
+
+        /* ================================================
+           ERROR / SUCCESS
+           ================================================ */
+
+        .message {
+            display: none;
+
+            margin-bottom: 18px;
+
+            padding: 12px 14px;
+
+            border-radius: 11px;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+
+        .message.error {
+            display: block;
+
+            color: #fca5a5;
+
+            background:
+                rgba(239,68,68,.08);
+
+            border:
+                1px solid
+                rgba(239,68,68,.18);
+        }
+
+
+        .message.success {
+            display: block;
+
+            color: #86efac;
+
+            background:
+                rgba(34,197,94,.08);
+
+            border:
+                1px solid
+                rgba(34,197,94,.18);
+        }
+
+
+        /* ================================================
            ANIMATIONS
-           ================================================== */
+           ================================================ */
+
+        @keyframes glowMove {
+
+            from {
+                transform:
+                    translate(-50%,-50%)
+                    scale(.85);
+
+                opacity: .55;
+            }
+
+            to {
+                transform:
+                    translate(-50%,-50%)
+                    scale(1.15);
+
+                opacity: 1;
+            }
+        }
+
+
+        @keyframes ringRotate {
+
+            from {
+                transform:
+                    translate(-50%,-50%)
+                    rotate(0deg);
+            }
+
+            to {
+                transform:
+                    translate(-50%,-50%)
+                    rotate(360deg);
+            }
+        }
+
 
         @keyframes cardAppear {
 
@@ -790,74 +883,29 @@
         }
 
 
-        @keyframes glowMove {
+        @keyframes fadeIn {
 
             from {
-                transform:
-                    translate(-50%, -50%)
-                    scale(.85);
-
-                opacity: .65;
+                opacity: 0;
             }
 
             to {
-                transform:
-                    translate(-50%, -50%)
-                    scale(1.15);
-
                 opacity: 1;
             }
         }
 
 
-        @keyframes rotateCircle {
-
-            from {
-                transform:
-                    translate(-50%, -50%)
-                    rotate(0deg);
-            }
-
-            to {
-                transform:
-                    translate(-50%, -50%)
-                    rotate(360deg);
-            }
-        }
-
-
-        /* ==================================================
+        /* ================================================
            MOBILE
-           ================================================== */
+           ================================================ */
 
         @media (max-width: 700px) {
 
-            .site-header {
+            .header {
                 height: 70px;
 
                 padding:
                     0 18px;
-            }
-
-
-            .main-nav {
-                display: none;
-            }
-
-
-            .header-actions {
-                margin-left: auto;
-            }
-
-
-            .login-btn,
-            .register-btn {
-                height: 37px;
-
-                padding:
-                    0 11px;
-
-                font-size: 12px;
             }
 
 
@@ -867,42 +915,32 @@
             }
 
 
-            .brand-text {
+            .brand-name {
                 font-size: 17px;
             }
 
 
-            .register-page {
-                min-height:
-                    calc(100vh - 70px);
+            .nav {
+                display: none;
+            }
 
+
+            .page {
                 padding:
-                    45px 15px 60px;
+                    40px 16px 70px;
             }
 
 
             .register-card {
                 padding:
-                    30px 22px;
+                    32px 22px;
 
-                border-radius: 23px;
+                border-radius: 24px;
             }
 
 
-            .register-title {
-                font-size: 29px;
-            }
-
-
-            .register-logo {
-                width: 62px;
-                height: 62px;
-            }
-
-
-            .register-logo img {
-                width: 44px;
-                height: 44px;
+            .register-card h1 {
+                font-size: 27px;
             }
 
         }
@@ -915,21 +953,17 @@
 <body>
 
 
-<!-- ======================================================
-     BACKGROUND
-     ====================================================== -->
-
 <div class="background-glow"></div>
 
-<div class="background-circle"></div>
+<div class="background-ring"></div>
 
 
 
-<!-- ======================================================
+<!-- =====================================================
      HEADER
-     ====================================================== -->
+     ===================================================== -->
 
-<header class="site-header">
+<header class="header">
 
 
     <a
@@ -942,14 +976,14 @@
             alt="Auronex"
         >
 
-        <span class="brand-text">
+        <span class="brand-name">
             AURONEX
         </span>
 
     </a>
 
 
-    <nav class="main-nav">
+    <nav class="nav">
 
         <a href="index.html">
             Главная
@@ -963,80 +997,63 @@
             Войти
         </a>
 
-    </nav>
-
-
-    <div class="header-actions">
-
-        <a
-            href="login.html"
-            class="login-btn"
-        >
-            Войти
-        </a>
-
         <a
             href="register.html"
-            class="register-btn"
+            class="active"
         >
             Регистрация
         </a>
 
-    </div>
+    </nav>
+
 
 </header>
 
 
 
-<!-- ======================================================
-     REGISTRATION
-     ====================================================== -->
+<!-- =====================================================
+     REGISTER PAGE
+     ===================================================== -->
 
-<main class="register-page">
+<main class="page">
 
 
     <section class="register-card">
 
 
-        <!-- ЛОГО -->
+        <!-- =============================================
+             REGISTRATION
+             ============================================= -->
 
-        <div class="register-logo">
-
-            <img
-                src="assets/logo.png"
-                alt="Auronex"
-            >
-
-        </div>
+        <div id="registrationForm">
 
 
-        <!-- ЗАГОЛОВОК -->
-
-        <h1 class="register-title">
-            Создать аккаунт
-        </h1>
+            <div class="register-icon">
+                👤
+            </div>
 
 
-        <p class="register-description">
-            Зарегистрируйтесь в Auronex,
-            чтобы покупать цифровые товары,
-            управлять покупками и получать
-            доступ к своему аккаунту.
-        </p>
+            <h1>
+                Создать аккаунт
+            </h1>
 
 
+            <p class="register-description">
+                Зарегистрируйтесь в Auronex,
+                чтобы получить доступ к личному кабинету.
+            </p>
 
-        <!-- ФОРМА -->
 
-        <form
-            class="register-form"
-            id="registerForm"
-        >
+            <div
+                id="message"
+                class="message"
+            ></div>
+
 
 
             <!-- USERNAME -->
 
-            <div class="field">
+            <div class="form-group">
 
                 <label for="username">
                     Имя пользователя
@@ -1045,16 +1062,15 @@
                 <div class="input-wrap">
 
                     <span class="input-icon">
-                        @
+                        👤
                     </span>
 
                     <input
-                        type="text"
                         id="username"
-                        name="username"
+                        type="text"
                         placeholder="Введите имя пользователя"
                         autocomplete="username"
-                        required
+                        maxlength="32"
                     >
 
                 </div>
@@ -1065,7 +1081,7 @@
 
             <!-- EMAIL -->
 
-            <div class="field">
+            <div class="form-group">
 
                 <label for="email">
                     Email
@@ -1074,16 +1090,14 @@
                 <div class="input-wrap">
 
                     <span class="input-icon">
-                        @
+                        ✉
                     </span>
 
                     <input
-                        type="email"
                         id="email"
-                        name="email"
-                        placeholder="example@mail.com"
+                        type="email"
+                        placeholder="you@example.com"
                         autocomplete="email"
-                        required
                     >
 
                 </div>
@@ -1094,7 +1108,7 @@
 
             <!-- PASSWORD -->
 
-            <div class="field">
+            <div class="form-group">
 
                 <label for="password">
                     Пароль
@@ -1103,48 +1117,80 @@
                 <div class="input-wrap">
 
                     <span class="input-icon">
-                        ●
+                        🔒
                     </span>
 
                     <input
-                        type="password"
                         id="password"
-                        name="password"
-                        placeholder="Минимум 8 символов"
+                        class="password-input"
+                        type="password"
+                        placeholder="Придумайте пароль"
                         autocomplete="new-password"
-                        minlength="8"
-                        required
                     >
 
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        onclick="togglePassword('password', this)"
+                        aria-label="Показать пароль"
+                    >
+                        👁
+                    </button>
+
+                </div>
+
+
+                <div class="password-strength">
+
+                    <div class="strength-line"></div>
+                    <div class="strength-line"></div>
+                    <div class="strength-line"></div>
+                    <div class="strength-line"></div>
+
+                </div>
+
+
+                <div
+                    id="strengthText"
+                    class="strength-text"
+                >
+                    Введите пароль
                 </div>
 
             </div>
 
 
 
-            <!-- CONFIRM PASSWORD -->
+            <!-- PASSWORD CONFIRM -->
 
-            <div class="field">
+            <div class="form-group">
 
-                <label for="confirmPassword">
+                <label for="passwordConfirm">
                     Повторите пароль
                 </label>
 
                 <div class="input-wrap">
 
                     <span class="input-icon">
-                        ●
+                        🔐
                     </span>
 
                     <input
+                        id="passwordConfirm"
+                        class="password-input"
                         type="password"
-                        id="confirmPassword"
-                        name="confirmPassword"
                         placeholder="Повторите пароль"
                         autocomplete="new-password"
-                        minlength="8"
-                        required
                     >
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        onclick="togglePassword('passwordConfirm', this)"
+                        aria-label="Показать пароль"
+                    >
+                        👁
+                    </button>
 
                 </div>
 
@@ -1157,18 +1203,21 @@
             <div class="terms">
 
                 <input
-                    type="checkbox"
                     id="terms"
-                    name="terms"
-                    required
+                    type="checkbox"
                 >
 
                 <label for="terms">
+
                     Я принимаю
                     <a href="#">
-                        правила использования
+                        условия использования
                     </a>
-                    Auronex
+                    и
+                    <a href="#">
+                        политику конфиденциальности
+                    </a>.
+
                 </label>
 
             </div>
@@ -1178,47 +1227,479 @@
             <!-- BUTTON -->
 
             <button
-                type="submit"
-                class="create-account"
-                id="registerBtn"
+                id="registerButton"
+                class="register-button"
+                type="button"
+                onclick="registerUser()"
             >
                 Создать аккаунт
             </button>
 
 
-        </form>
+            <div class="login-link">
+
+                Уже есть аккаунт?
+
+                <a href="login.html">
+                    Войти
+                </a>
+
+            </div>
+
+
+        </div>
 
 
 
-        <!-- LOGIN -->
+        <!-- =============================================
+             EMAIL VERIFICATION
+             ============================================= -->
 
-        <p class="already-account">
+        <div
+            id="verificationForm"
+            class="verification"
+        >
 
-            Уже есть аккаунт?
 
-            <a href="login.html">
-                Войти
-            </a>
+            <div class="register-icon">
+                ✉️
+            </div>
 
-        </p>
+
+            <div class="verification-title">
+                Подтвердите Email
+            </div>
+
+
+            <p class="verification-text">
+
+                Мы отправили код подтверждения
+                на адрес
+
+                <span
+                    id="verificationEmail"
+                    class="verification-email"
+                >
+                </span>
+
+                <br>
+
+                Введите его ниже.
+
+            </p>
+
+
+            <div
+                id="verificationMessage"
+                class="message"
+            ></div>
+
+
+            <div class="form-group">
+
+                <input
+                    id="verificationCode"
+                    class="code-input"
+                    type="text"
+                    inputmode="numeric"
+                    maxlength="6"
+                    placeholder="000000"
+                    autocomplete="one-time-code"
+                >
+
+            </div>
+
+
+            <button
+                class="register-button"
+                type="button"
+                onclick="verifyCode()"
+            >
+                Подтвердить Email
+            </button>
+
+
+            <div class="resend">
+
+                Не получили код?
+
+                <button
+                    type="button"
+                    onclick="resendCode()"
+                >
+                    Отправить снова
+                </button>
+
+            </div>
+
+
+        </div>
 
 
     </section>
+
 
 </main>
 
 
 
-<!-- ======================================================
-     FOOTER
-     ====================================================== -->
+<script>
 
-<footer class="page-footer">
+    /*
+     * Сейчас это FRONTEND-ЗАГОТОВКА.
+     *
+     * Здесь НЕ сохраняются реальные пароли
+     * и НЕ отправляются реальные письма.
+     *
+     * Следующим этапом подключим backend,
+     * базу данных и настоящий email-код.
+     */
 
-    © 2026 Auronex
 
-</footer>
+    const passwordInput =
+        document.getElementById("password");
 
+
+    const strengthLines =
+        document.querySelectorAll(".strength-line");
+
+
+    const strengthText =
+        document.getElementById("strengthText");
+
+
+
+    /* ================================================
+       PASSWORD STRENGTH
+       ================================================ */
+
+    passwordInput.addEventListener(
+        "input",
+        function () {
+
+            const password =
+                passwordInput.value;
+
+            let strength = 0;
+
+
+            if (password.length >= 8) {
+                strength++;
+            }
+
+            if (/[A-Z]/.test(password)) {
+                strength++;
+            }
+
+            if (/[0-9]/.test(password)) {
+                strength++;
+            }
+
+            if (/[^A-Za-z0-9]/.test(password)) {
+                strength++;
+            }
+
+
+            strengthLines.forEach(
+                function (line, index) {
+
+                    if (index < strength) {
+
+                        line.style.background =
+                            strength <= 1
+                                ? "#ef4444"
+                                : strength === 2
+                                    ? "#f59e0b"
+                                    : "#a855f7";
+
+                    } else {
+
+                        line.style.background =
+                            "rgba(255,255,255,.08)";
+                    }
+
+                }
+            );
+
+
+            if (!password) {
+
+                strengthText.textContent =
+                    "Введите пароль";
+
+            } else if (strength === 1) {
+
+                strengthText.textContent =
+                    "Слабый пароль";
+
+            } else if (strength === 2) {
+
+                strengthText.textContent =
+                    "Средний пароль";
+
+            } else if (strength === 3) {
+
+                strengthText.textContent =
+                    "Хороший пароль";
+
+            } else {
+
+                strengthText.textContent =
+                    "Надёжный пароль";
+            }
+
+        }
+    );
+
+
+
+    /* ================================================
+       SHOW / HIDE PASSWORD
+       ================================================ */
+
+    function togglePassword(
+        inputId,
+        button
+    ) {
+
+        const input =
+            document.getElementById(inputId);
+
+
+        if (input.type === "password") {
+
+            input.type = "text";
+
+            button.textContent = "🙈";
+
+        } else {
+
+            input.type = "password";
+
+            button.textContent = "👁";
+        }
+
+    }
+
+
+
+    /* ================================================
+       MESSAGE
+       ================================================ */
+
+    function showMessage(
+        element,
+        text,
+        type
+    ) {
+
+        element.textContent = text;
+
+        element.className =
+            "message " + type;
+
+    }
+
+
+
+    /* ================================================
+       REGISTRATION
+       ================================================ */
+
+    function registerUser() {
+
+        const username =
+            document.getElementById(
+                "username"
+            ).value.trim();
+
+
+        const email =
+            document.getElementById(
+                "email"
+            ).value.trim();
+
+
+        const password =
+            document.getElementById(
+                "password"
+            ).value;
+
+
+        const passwordConfirm =
+            document.getElementById(
+                "passwordConfirm"
+            ).value;
+
+
+        const terms =
+            document.getElementById(
+                "terms"
+            ).checked;
+
+
+        const message =
+            document.getElementById(
+                "message"
+            );
+
+
+
+        if (username.length < 3) {
+
+            showMessage(
+                message,
+                "Имя пользователя должно содержать минимум 3 символа.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        if (!email.includes("@")) {
+
+            showMessage(
+                message,
+                "Введите корректный Email.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        if (password.length < 8) {
+
+            showMessage(
+                message,
+                "Пароль должен содержать минимум 8 символов.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        if (password !== passwordConfirm) {
+
+            showMessage(
+                message,
+                "Пароли не совпадают.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        if (!terms) {
+
+            showMessage(
+                message,
+                "Необходимо принять условия использования.",
+                "error"
+            );
+
+            return;
+        }
+
+
+
+        /*
+         * Пока имитируем переход
+         * к подтверждению Email.
+         *
+         * Реальную отправку кода подключим
+         * через backend.
+         */
+
+
+        document.getElementById(
+            "verificationEmail"
+        ).textContent = email;
+
+
+        document.getElementById(
+            "registrationForm"
+        ).style.display = "none";
+
+
+        document.getElementById(
+            "verificationForm"
+        ).classList.add("active");
+
+    }
+
+
+
+    /* ================================================
+       VERIFY CODE
+       ================================================ */
+
+    function verifyCode() {
+
+        const code =
+            document.getElementById(
+                "verificationCode"
+            ).value.trim();
+
+
+        const message =
+            document.getElementById(
+                "verificationMessage"
+            );
+
+
+        if (!/^\d{6}$/.test(code)) {
+
+            showMessage(
+                message,
+                "Введите шестизначный код.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        /*
+         * Реальная проверка кода будет
+         * выполняться на сервере.
+         */
+
+
+        showMessage(
+            message,
+            "Интерфейс готов. После подключения сервера код будет проверяться автоматически.",
+            "success"
+        );
+
+    }
+
+
+
+    /* ================================================
+       RESEND
+       ================================================ */
+
+    function resendCode() {
+
+        const message =
+            document.getElementById(
+                "verificationMessage"
+            );
+
+
+        showMessage(
+            message,
+            "После подключения email-сервиса здесь будет отправлен новый код.",
+            "success"
+        );
+
+    }
+
+</script>
 
 
 </body>
