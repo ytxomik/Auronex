@@ -781,3 +781,63 @@
     }
 }
 ```
+/* ===== AURONEX DARK OVERRIDE ===== */
+
+html,
+body.auth-body {
+    background: #030308 !important;
+    color: #ffffff !important;
+}
+
+.auth-body {
+    min-height: 100vh;
+    background:
+        radial-gradient(
+            circle at 15% 30%,
+            rgba(124, 58, 237, 0.18),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 85% 20%,
+            rgba(168, 85, 247, 0.14),
+            transparent 35%
+        ),
+        #030308 !important;
+}
+
+/* Чтобы основной контейнер тоже не становился светлым */
+.auth-body .register-page {
+    background: transparent !important;
+}
+
+/* Карточка */
+.auth-body .register-card {
+    background: rgba(10, 8, 20, 0.92) !important;
+    color: #fff !important;
+}
+
+/* Поля */
+.auth-body .input-wrapper input {
+    background: rgba(0, 0, 0, 0.45) !important;
+    color: #fff !important;
+}
+
+/* Шапка */
+.auth-body .auth-header {
+    background: rgba(3, 3, 8, 0.85) !important;
+}
+
+/* Текст */
+.auth-body h1,
+.auth-body h2,
+.auth-body label,
+.auth-body span {
+    color: #fff;
+}
+
+/* Второстепенный текст */
+.auth-body p,
+.auth-body .already-account,
+.auth-body .terms {
+    color: #a1a1aa;
+}
