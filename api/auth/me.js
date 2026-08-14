@@ -7,18 +7,19 @@ const sql = neon(process.env.DATABASE_URL);
 function getCookie(req, name) {
   const raw = req.headers.cookie || "";
 
-  const part = raw
-    .split(";")
-    .map(v => v.trim())
-    .find(v => v.startsWith(name + "="));
+  const parts = raw.split(";");
 
-  if (!part) {
-    return null;
+  for (const part of parts) {
+    const item = part.trim();
+
+    if (item.startsWith(name + "=")) {
+      return decodeURIComponent(
+        item.substring(name.length + 1)
+      );
+    }
   }
 
-  return decodeURIComponent(
-    part.slice(name.length + 1)
-  );
+  return null;
 }
 
 export default async function handler(req, res) {
@@ -30,14 +31,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    // ==============================
-    // 1. Получаем JWT из cookie
-    // ==============================
-
-    const token = getCookie(
-      req,
-      "auronex_session"
-    );
+    const token = getCookie(req, "auronex_session");
 
     if (!token) {
       return res.status(401).json({
@@ -46,18 +40,21 @@ export default async function handler(req, res) {
       });
     }
 
-    // ==============================
-    // 2. Проверяем JWT_SECRET
-    // ==============================
-
     if (!process.env.JWT_SECRET) {
-      console.error(
-        "JWT_SECRET не задан в Environment Variables."
-      );
+      console.error("JWT_SECRET is missing");
 
       return res.status(500).json({
         ok: false,
-        error: "Ошибка конфигурации сервера."
+        error: "JWT_SECRET не настроен."
+      });
+    }
+
+    if (!process.env.DATABASE_URL) {
+      console.error("DATABASE_URL is missing");
+
+      return res.status(500).json({
+        ok: false,
+        error: "DATABASE_URL не настроен."
       });
     }
 
@@ -65,14 +62,12 @@ export default async function handler(req, res) {
       process.env.JWT_SECRET
     );
 
-    const { payload } = await jwtVerify(
+    const result = await jwtVerify(
       token,
       secret
     );
 
-    // ==============================
-    // 3. Получаем ID пользователя
-    // ==============================
+    const payload = result.payload;
 
     const userId = payload.sub;
 
@@ -83,74 +78,44 @@ export default async function handler(req, res) {
       });
     }
 
-    // ==============================
-    // 4. Получаем пользователя из Neon
-    // ==============================
-
     const users = await sql`
-      SELECT
-        id,
-        username,
-        email
+      SELECT id, username, email
       FROM users
       WHERE id = ${userId}
       LIMIT 1
     `;
 
-    if (!users.length) {
+    if (!users || users.length === 0) {
       return res.status(404).json({
         ok: false,
         error: "Пользователь не найден."
       });
     }
 
-    const dbUser = users[0];
-
-    // ==============================
-    // 5. Пока покупки и ключи пустые
-    //
-    // Эти поля уже поддерживает
-    // cabinet.html.
-    //
-    // Когда создадим таблицы заказов
-    // и ключей — подключим их сюда.
-    // ==============================
-
-    const purchases = [];
-    const keys = [];
-
-    const spent = 0;
-
-    // ==============================
-    // 6. Ответ
-    // ==============================
+    const user = users[0];
 
     return res.status(200).json({
       ok: true,
-
       user: {
-        id: String(dbUser.id),
-        username: dbUser.username,
-        email: dbUser.email,
-
-        purchases,
-        keys,
-        spent
+        id: String(user.id),
+        username: user.username,
+        email: user.email,
+        purchases: [],
+        keys: [],
+        spent: 0
       }
     });
 
   } catch (error) {
+    console.error("ME API ERROR:", error);
 
-    console.error(
-      "GET /api/auth/me error:",
-      error
-    );
-
-    // JWT недействителен / просрочен
     if (
-      error?.code === "ERR_JWT_EXPIRED" ||
-      error?.code === "ERR_JWS_SIGNATURE_VERIFICATION_FAILED" ||
-      error?.code === "ERR_JWT_INVALID"
+      error &&
+      (
+        error.code === "ERR_JWT_EXPIRED" ||
+        error.code === "ERR_JWS_SIGNATURE_VERIFICATION_FAILED" ||
+        error.code === "ERR_JWT_INVALID"
+      )
     ) {
       return res.status(401).json({
         ok: false,
