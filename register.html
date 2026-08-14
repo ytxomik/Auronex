@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -6,6 +7,7 @@
 
     <title>Регистрация — Auronex</title>
 
+    <link rel="icon" type="image/png" href="assets/logo.png">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -36,18 +38,14 @@
     <header class="auth-header">
 
         <a href="index.html" class="brand">
-            <span class="brand-mark">A</span>
-            <span>AURONEX</span>
+            <img src="assets/logo.png" alt="Auronex">
         </a>
-
 
         <nav class="auth-nav">
             <a href="index.html">Главная</a>
             <a href="shop.html">Магазин</a>
-            <a href="#">Преимущества</a>
             <a href="#">Поддержка</a>
         </nav>
-
 
         <div class="header-actions">
             <a href="login.html" class="login-btn">
@@ -55,7 +53,7 @@
             </a>
 
             <a href="register.html" class="register-top-btn">
-                Создать аккаунт
+                Регистрация
             </a>
         </div>
 
@@ -64,7 +62,6 @@
 
     <!-- Основная часть -->
     <main class="register-page">
-
 
         <!-- Левая часть -->
         <section class="register-intro">
@@ -87,30 +84,25 @@
         </section>
 
 
-        <!-- Форма -->
+        <!-- Карточка регистрации -->
         <section class="register-card">
 
             <div class="form-icon">
-                <span>♙</span>
+                ✦
             </div>
 
-
             <div class="form-title">
-
-                <h2>
-                    Регистрация
-                </h2>
+                <h2>Регистрация</h2>
 
                 <p>
-                    Заполните форму, чтобы создать аккаунт
+                    Создайте свой аккаунт Auronex
                 </p>
-
             </div>
 
 
             <form id="registerForm">
 
-
+                <!-- Имя -->
                 <div class="input-group">
 
                     <label for="username">
@@ -139,7 +131,7 @@
                 </div>
 
 
-
+                <!-- Email -->
                 <div class="input-group">
 
                     <label for="email">
@@ -166,7 +158,7 @@
                 </div>
 
 
-
+                <!-- Пароль -->
                 <div class="input-group">
 
                     <label for="password">
@@ -193,6 +185,7 @@
                             type="button"
                             class="password-toggle"
                             data-target="password"
+                            aria-label="Показать пароль"
                         >
                             ◉
                         </button>
@@ -202,7 +195,7 @@
                 </div>
 
 
-
+                <!-- Повтор пароля -->
                 <div class="input-group">
 
                     <label for="passwordConfirm">
@@ -229,6 +222,7 @@
                             type="button"
                             class="password-toggle"
                             data-target="passwordConfirm"
+                            aria-label="Показать пароль"
                         >
                             ◉
                         </button>
@@ -238,7 +232,7 @@
                 </div>
 
 
-
+                <!-- Правила -->
                 <label class="terms">
 
                     <input
@@ -258,7 +252,7 @@
                 </label>
 
 
-
+                <!-- Кнопка -->
                 <button
                     type="submit"
                     class="create-account-btn"
@@ -279,7 +273,7 @@
             </form>
 
 
-
+            <!-- Вход -->
             <div class="already-account">
 
                 <span>
@@ -287,7 +281,7 @@
                 </span>
 
                 <a href="login.html">
-                    Войти в аккаунт
+                    Войти
                 </a>
 
             </div>
@@ -301,3 +295,4 @@
 
 </body>
 </html>
+```
