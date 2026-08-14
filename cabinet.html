@@ -8,7 +8,11 @@
 <link rel="icon" type="image/png" href="assets/logo.png">
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
 body{
     min-height:100vh;
@@ -81,7 +85,9 @@ body{
     font-size:14px;
 }
 
-.nav a:hover{color:#fff}
+.nav a:hover{
+    color:#fff;
+}
 
 .logout-top{
     padding:10px 15px;
@@ -142,7 +148,9 @@ body{
     box-shadow:0 12px 35px rgba(124,58,237,.25);
 }
 
-.profile-info{flex:1}
+.profile-info{
+    flex:1;
+}
 
 .profile-name{
     font-size:21px;
@@ -281,6 +289,43 @@ body{
     font-weight:700;
 }
 
+.purchase{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:15px;
+    margin-bottom:12px;
+    border-radius:13px;
+    background:rgba(0,0,0,.20);
+    border:1px solid rgba(255,255,255,.06);
+}
+
+.purchase-icon{
+    font-size:24px;
+}
+
+.purchase-info{
+    flex:1;
+}
+
+.purchase-name{
+    color:#fff;
+    font-size:13px;
+    font-weight:700;
+    margin-bottom:4px;
+}
+
+.purchase-date{
+    color:#666671;
+    font-size:11px;
+}
+
+.purchase-price{
+    color:#c4b5fd;
+    font-size:13px;
+    font-weight:800;
+}
+
 .actions{
     display:grid;
     grid-template-columns:repeat(2,1fr);
@@ -320,304 +365,397 @@ footer strong{
     letter-spacing:2px;
 }
 
+.loading{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#050507;
+    font-size:14px;
+    color:#aaa;
+}
+
+.loading.hidden{
+    display:none;
+}
+
+.error-box{
+    display:none;
+    padding:20px;
+    margin-bottom:25px;
+    border-radius:15px;
+    background:rgba(239,68,68,.08);
+    border:1px solid rgba(239,68,68,.2);
+    color:#fca5a5;
+}
+
 @keyframes glowMove{
-    from{transform:translate(-50%,-50%) scale(.85);opacity:.55}
-    to{transform:translate(-50%,-50%) scale(1.15);opacity:1}
+    from{
+        transform:translate(-50%,-50%) scale(.85);
+        opacity:.55;
+    }
+
+    to{
+        transform:translate(-50%,-50%) scale(1.15);
+        opacity:1;
+    }
 }
 
 @media(max-width:850px){
-    .content-grid{grid-template-columns:1fr}
-    .nav{display:none}
+    .content-grid{
+        grid-template-columns:1fr;
+    }
+
+    .nav{
+        display:none;
+    }
 }
 
 @media(max-width:600px){
-    .header{height:70px;padding:0 18px}
-    .brand img{width:36px;height:36px}
-    .brand-name{font-size:17px}
-    .page{padding:40px 16px 70px}
+    .header{
+        height:70px;
+        padding:0 18px;
+    }
+
+    .brand img{
+        width:36px;
+        height:36px;
+    }
+
+    .brand-name{
+        font-size:17px;
+    }
+
+    .page{
+        padding:40px 16px 70px;
+    }
+
     .profile{
         align-items:flex-start;
         flex-direction:column;
     }
-    .stats{grid-template-columns:1fr}
+
+    .stats{
+        grid-template-columns:1fr;
+    }
 }
 </style>
 </head>
 
-<body>
+<body data-page="cabinet">
+
+<div class="loading" id="loading">
+    Загрузка кабинета...
+</div>
 
 <div class="glow"></div>
 
 <header class="header">
 
-<a href="index.html" class="brand">
-    <img src="assets/logo.png" alt="Auronex">
-    <span class="brand-name">AURONEX</span>
-</a>
+    <a href="index.html" class="brand">
+        <img src="assets/logo.png" alt="Auronex">
+        <span class="brand-name">AURONEX</span>
+    </a>
 
-<nav class="nav">
-    <a href="index.html">Главная</a>
-    <a href="shop.html">Магазин</a>
-    <a href="cabinet.html" style="color:#c084fc;">
-        Кабинет
-    </a>
-    <a href="#" class="logout-top" onclick="logout()">
-        Выйти
-    </a>
-</nav>
+    <nav class="nav">
+        <a href="index.html">Главная</a>
+        <a href="shop.html">Магазин</a>
+        <a href="cabinet.html" style="color:#c084fc;">
+            Кабинет
+        </a>
+        <a href="#" class="logout-top" onclick="logout(); return false;">
+            Выйти
+        </a>
+    </nav>
 
 </header>
 
 <main class="page">
 
-<h1 class="page-title">
-    Личный кабинет
-</h1>
+    <h1 class="page-title">
+        Личный кабинет
+    </h1>
 
-<p class="page-subtitle">
-    Управление аккаунтом, покупками и ключами.
-</p>
+    <p class="page-subtitle">
+        Управление аккаунтом, покупками и ключами.
+    </p>
 
+    <div class="error-box" id="errorBox"></div>
 
-<section class="profile">
+    <section class="profile">
 
-<div class="avatar" id="avatar">A</div>
+        <div class="avatar" id="avatar">
+            A
+        </div>
 
-<div class="profile-info">
+        <div class="profile-info">
 
-<div class="profile-name" id="profileName">
-    Загрузка...
-</div>
+            <div class="profile-name" id="profileName">
+                Загрузка...
+            </div>
 
-<div class="profile-email" id="profileEmail">
-    Загрузка...
-</div>
+            <div class="profile-email" id="profileEmail">
+                Загрузка...
+            </div>
 
-</div>
+        </div>
 
-<div class="status">
-    <span class="status-dot"></span>
-    Аккаунт активен
-</div>
+        <div class="status">
+            <span class="status-dot"></span>
+            Аккаунт активен
+        </div>
 
-</section>
+    </section>
 
+    <section class="stats">
 
-<section class="stats">
+        <div class="stat">
+            <div class="stat-icon">🛒</div>
+            <div class="stat-value" id="purchaseCount">0</div>
+            <div class="stat-title">Покупок</div>
+        </div>
 
-<div class="stat">
-    <div class="stat-icon">🛒</div>
-    <div class="stat-value" id="purchaseCount">0</div>
-    <div class="stat-title">Покупок</div>
-</div>
+        <div class="stat">
+            <div class="stat-icon">🔑</div>
+            <div class="stat-value" id="keyCount">0</div>
+            <div class="stat-title">Активных ключей</div>
+        </div>
 
-<div class="stat">
-    <div class="stat-icon">🔑</div>
-    <div class="stat-value" id="keyCount">0</div>
-    <div class="stat-title">Активных ключей</div>
-</div>
+        <div class="stat">
+            <div class="stat-icon">💰</div>
+            <div class="stat-value" id="spent">0 ₽</div>
+            <div class="stat-title">Потрачено</div>
+        </div>
 
-<div class="stat">
-    <div class="stat-icon">💰</div>
-    <div class="stat-value" id="spent">0 ₽</div>
-    <div class="stat-title">Потрачено</div>
-</div>
+    </section>
 
-</section>
+    <section class="content-grid">
 
+        <div class="panel">
 
-<section class="content-grid">
+            <div class="panel-header">
+                <h2 class="panel-title">
+                    Последние покупки
+                </h2>
 
-<div class="panel">
+                <a href="shop.html" class="panel-link">
+                    В магазин →
+                </a>
+            </div>
 
-<div class="panel-header">
-    <h2 class="panel-title">
-        Последние покупки
-    </h2>
+            <div id="purchases">
+                <div class="empty">
+                    <div class="empty-icon">🛒</div>
+                    Здесь пока нет покупок.
+                </div>
+            </div>
 
-    <a href="shop.html" class="panel-link">
-        В магазин →
-    </a>
-</div>
+        </div>
 
-<div id="purchases">
-    <div class="empty">
-        <div class="empty-icon">🛒</div>
-        Здесь пока нет покупок.
-    </div>
-</div>
+        <div class="panel">
 
-</div>
+            <div class="panel-header">
+                <h2 class="panel-title">
+                    Мои ключи
+                </h2>
+            </div>
 
+            <div id="keys">
+                <div class="empty">
+                    <div class="empty-icon">🔑</div>
+                    Активных ключей пока нет.
+                </div>
+            </div>
 
-<div class="panel">
+            <div class="actions">
 
-<div class="panel-header">
-    <h2 class="panel-title">
-        Мои ключи
-    </h2>
-</div>
+                <a href="shop.html" class="action">
+                    Купить товар
+                </a>
 
-<div id="keys">
-    <div class="empty">
-        <div class="empty-icon">🔑</div>
-        Активных ключей пока нет.
-    </div>
-</div>
+                <a href="index.html" class="action">
+                    На главную
+                </a>
 
-<div class="actions">
+            </div>
 
-<a href="shop.html" class="action">
-    Купить товар
-</a>
+        </div>
 
-<a href="index.html" class="action">
-    На главную
-</a>
-
-</div>
-
-</div>
-
-</section>
+    </section>
 
 </main>
 
 <footer>
-<strong>AURONEX</strong>
-<p>Digital Marketplace © 2026</p>
+    <strong>AURONEX</strong>
+    <p>Digital Marketplace © 2026</p>
 </footer>
 
-
 <script>
+async function api(path, options = {}) {
 
-const loggedIn =
-    localStorage.getItem("auronex_logged_in");
+    const response = await fetch(path, {
+        ...options,
 
+        headers: {
+            "Content-Type": "application/json",
+            ...(options.headers || {})
+        },
 
-/*
- * Если пользователь не вошёл —
- * отправляем его на страницу входа.
- */
+        credentials: "same-origin"
+    });
 
-if(loggedIn !== "true"){
+    const data = await response.json().catch(() => ({}));
 
-    window.location.replace("login.html");
-
-}else{
-
-    loadCabinet();
-
-}
-
-
-function loadCabinet(){
-
-    const user=JSON.parse(
-        localStorage.getItem("auronex_user")
-    );
-
-    const session=JSON.parse(
-        localStorage.getItem("auronex_session_user")
-    );
-
-
-    if(!user || !session){
-
-        localStorage.removeItem(
-            "auronex_logged_in"
+    if (!response.ok) {
+        throw new Error(
+            data.error || "Ошибка запроса."
         );
-
-        localStorage.removeItem(
-            "auronex_session_user"
-        );
-
-        window.location.replace("login.html");
-
-        return;
     }
 
-
-    /*
-     * Профиль
-     */
-
-    document.getElementById(
-        "profileName"
-    ).textContent=user.username;
-
-
-    document.getElementById(
-        "profileEmail"
-    ).textContent=user.email;
-
-
-    document.getElementById(
-        "avatar"
-    ).textContent=
-        user.username
-            .charAt(0)
-            .toUpperCase();
-
-
-    /*
-     * Покупки
-     */
-
-    const purchases=
-        Array.isArray(user.purchases)
-        ? user.purchases
-        : [];
-
-
-    document.getElementById(
-        "purchaseCount"
-    ).textContent=purchases.length;
-
-
-    /*
-     * Ключи
-     */
-
-    const keys=
-        Array.isArray(user.keys)
-        ? user.keys
-        : [];
-
-
-    document.getElementById(
-        "keyCount"
-    ).textContent=keys.length;
-
-
-    /*
-     * Потрачено
-     */
-
-    const spent=
-        Number(user.spent || 0);
-
-
-    document.getElementById(
-        "spent"
-    ).textContent=
-        spent.toLocaleString("ru-RU")+" ₽";
-
-
-    renderPurchases(purchases);
-    renderKeys(keys);
+    return data;
 }
 
 
-function renderPurchases(purchases){
+function showError(message) {
 
-    const container=
+    const box = document.getElementById("errorBox");
+
+    if (!box) return;
+
+    box.textContent = message;
+    box.style.display = "block";
+}
+
+
+async function loadCabinet() {
+
+    try {
+
+        const data = await api("/api/auth/me");
+
+        if (!data.ok || !data.user) {
+            throw new Error("Не удалось получить данные пользователя.");
+        }
+
+        const user = data.user;
+
+        const name = document.getElementById("profileName");
+        const email = document.getElementById("profileEmail");
+        const avatar = document.getElementById("avatar");
+
+        if (name) {
+            name.textContent = user.username || "Пользователь";
+        }
+
+        if (email) {
+            email.textContent = user.email || "";
+        }
+
+        if (avatar) {
+
+            avatar.textContent =
+                (user.username || "A")
+                .charAt(0)
+                .toUpperCase();
+
+        }
+
+        /*
+         * Покупки и ключи пока берём из объекта пользователя,
+         * если backend их предоставляет.
+         */
+
+        const purchases =
+            Array.isArray(user.purchases)
+                ? user.purchases
+                : [];
+
+        const keys =
+            Array.isArray(user.keys)
+                ? user.keys
+                : [];
+
+        const spent =
+            Number(user.spent || 0);
+
+
+        const purchaseCount =
+            document.getElementById("purchaseCount");
+
+        const keyCount =
+            document.getElementById("keyCount");
+
+        const spentElement =
+            document.getElementById("spent");
+
+
+        if (purchaseCount) {
+            purchaseCount.textContent =
+                purchases.length;
+        }
+
+        if (keyCount) {
+            keyCount.textContent =
+                keys.length;
+        }
+
+        if (spentElement) {
+            spentElement.textContent =
+                spent.toLocaleString("ru-RU") + " ₽";
+        }
+
+
+        renderPurchases(purchases);
+        renderKeys(keys);
+
+    } catch (error) {
+
+        console.error("Cabinet error:", error);
+
+        showError(
+            error.message || "Не удалось загрузить кабинет."
+        );
+
+        /*
+         * Если сессия недействительна,
+         * отправляем пользователя обратно на вход.
+         */
+
+        if (
+            error.message === "Не авторизован." ||
+            error.message === "Сессия недействительна."
+        ) {
+            setTimeout(() => {
+                window.location.replace("login.html");
+            }, 800);
+        }
+
+    } finally {
+
+        const loading =
+            document.getElementById("loading");
+
+        if (loading) {
+            loading.classList.add("hidden");
+        }
+
+    }
+}
+
+
+function renderPurchases(purchases) {
+
+    const container =
         document.getElementById("purchases");
 
+    if (!container) return;
 
-    if(!purchases.length){
 
-        container.innerHTML=`
+    if (!purchases.length) {
+
+        container.innerHTML = `
             <div class="empty">
                 <div class="empty-icon">🛒</div>
                 Здесь пока нет покупок.
@@ -628,50 +766,52 @@ function renderPurchases(purchases){
     }
 
 
-    container.innerHTML=
+    container.innerHTML =
         purchases
-        .slice(-5)
-        .reverse()
-        .map(item=>`
+            .slice(-5)
+            .reverse()
+            .map(item => `
 
-            <div class="purchase">
+                <div class="purchase">
 
-                <div class="purchase-icon">
-                    🛍️
-                </div>
-
-                <div class="purchase-info">
-
-                    <div class="purchase-name">
-                        ${escapeHtml(item.name || "Товар")}
+                    <div class="purchase-icon">
+                        🛍️
                     </div>
 
-                    <div class="purchase-date">
-                        ${escapeHtml(item.date || "")}
+                    <div class="purchase-info">
+
+                        <div class="purchase-name">
+                            ${escapeHtml(item.name || "Товар")}
+                        </div>
+
+                        <div class="purchase-date">
+                            ${escapeHtml(item.date || "")}
+                        </div>
+
+                    </div>
+
+                    <div class="purchase-price">
+                        ${Number(item.price || 0).toLocaleString("ru-RU")} ₽
                     </div>
 
                 </div>
 
-                <div class="purchase-price">
-                    ${Number(item.price || 0).toLocaleString("ru-RU")} ₽
-                </div>
-
-            </div>
-
-        `)
-        .join("");
+            `)
+            .join("");
 }
 
 
-function renderKeys(keys){
+function renderKeys(keys) {
 
-    const container=
+    const container =
         document.getElementById("keys");
 
+    if (!container) return;
 
-    if(!keys.length){
 
-        container.innerHTML=`
+    if (!keys.length) {
+
+        container.innerHTML = `
             <div class="empty">
                 <div class="empty-icon">🔑</div>
                 Активных ключей пока нет.
@@ -682,59 +822,80 @@ function renderKeys(keys){
     }
 
 
-    container.innerHTML=
+    container.innerHTML =
         keys
-        .map(key=>`
+            .map(key => `
 
-            <div class="key">
+                <div class="key">
 
-                <span class="key-code">
-                    ${escapeHtml(
-                        typeof key==="string"
-                        ? key
-                        : key.code || ""
-                    )}
-                </span>
+                    <span class="key-code">
+                        ${escapeHtml(
+                            typeof key === "string"
+                                ? key
+                                : key.code || ""
+                        )}
+                    </span>
 
-                <span class="key-status">
-                    АКТИВЕН
-                </span>
+                    <span class="key-status">
+                        АКТИВЕН
+                    </span>
 
-            </div>
+                </div>
 
-        `)
-        .join("");
+            `)
+            .join("");
 }
 
 
-function escapeHtml(value){
+function escapeHtml(value) {
 
     return String(value)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
 }
 
 
-function logout(){
+async function logout() {
 
-    localStorage.removeItem(
-        "auronex_logged_in"
-    );
+    try {
 
-    localStorage.removeItem(
-        "auronex_session_user"
-    );
+        await api(
+            "/api/auth/logout",
+            {
+                method: "POST"
+            }
+        );
 
-    localStorage.removeItem(
-        "auronex_remember"
-    );
+    } catch (error) {
 
-    window.location.replace("login.html");
+        console.error(
+            "Logout error:",
+            error
+        );
+
+    } finally {
+
+        window.location.replace("login.html");
+
+    }
 }
 
+
+/*
+ * Самое важное:
+ * после открытия cabinet.html
+ * вызывается настоящий API /api/auth/me.
+ */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+        loadCabinet();
+    }
+);
 </script>
 
 </body>
