@@ -1,19 +1,24 @@
+
 import { jwtVerify } from "jose";
+import { neon } from "@neondatabase/serverless";
+
+const sql = neon(process.env.DATABASE_URL);
 
 function getCookie(req, name) {
-  const cookieHeader = req.headers.cookie || "";
+  const raw = req.headers.cookie || "";
 
-  const cookies = cookieHeader.split(";");
+  const part = raw
+    .split(";")
+    .map(v => v.trim())
+    .find(v => v.startsWith(name + "="));
 
-  for (const cookie of cookies) {
-    const [key, ...valueParts] = cookie.trim().split("=");
-
-    if (key === name) {
-      return decodeURIComponent(valueParts.join("="));
-    }
+  if (!part) {
+    return null;
   }
 
-  return null;
+  return decodeURIComponent(
+    part.slice(name.length + 1)
+  );
 }
 
 export default async function handler(req, res) {
@@ -25,45 +30,138 @@ export default async function handler(req, res) {
   }
 
   try {
-    const token = getCookie(req, "auronex_session");
+    // ==============================
+    // 1. Получаем JWT из cookie
+    // ==============================
+
+    const token = getCookie(
+      req,
+      "auronex_session"
+    );
 
     if (!token) {
       return res.status(401).json({
         ok: false,
-        error: "Вы не авторизованы."
+        error: "Не авторизован."
       });
     }
 
-    const jwtSecret = process.env.JWT_SECRET;
+    // ==============================
+    // 2. Проверяем JWT_SECRET
+    // ==============================
 
-    if (!jwtSecret) {
-      console.error("JWT_SECRET отсутствует в Environment Variables");
+    if (!process.env.JWT_SECRET) {
+      console.error(
+        "JWT_SECRET не задан в Environment Variables."
+      );
 
       return res.status(500).json({
         ok: false,
-        error: "JWT_SECRET не настроен."
+        error: "Ошибка конфигурации сервера."
       });
     }
 
-    const secret = new TextEncoder().encode(jwtSecret);
+    const secret = new TextEncoder().encode(
+      process.env.JWT_SECRET
+    );
 
-    const { payload } = await jwtVerify(token, secret);
+    const { payload } = await jwtVerify(
+      token,
+      secret
+    );
+
+    // ==============================
+    // 3. Получаем ID пользователя
+    // ==============================
+
+    const userId = payload.sub;
+
+    if (!userId) {
+      return res.status(401).json({
+        ok: false,
+        error: "Сессия недействительна."
+      });
+    }
+
+    // ==============================
+    // 4. Получаем пользователя из Neon
+    // ==============================
+
+    const users = await sql`
+      SELECT
+        id,
+        username,
+        email
+      FROM users
+      WHERE id = ${userId}
+      LIMIT 1
+    `;
+
+    if (!users.length) {
+      return res.status(404).json({
+        ok: false,
+        error: "Пользователь не найден."
+      });
+    }
+
+    const dbUser = users[0];
+
+    // ==============================
+    // 5. Пока покупки и ключи пустые
+    //
+    // Эти поля уже поддерживает
+    // cabinet.html.
+    //
+    // Когда создадим таблицы заказов
+    // и ключей — подключим их сюда.
+    // ==============================
+
+    const purchases = [];
+    const keys = [];
+
+    const spent = 0;
+
+    // ==============================
+    // 6. Ответ
+    // ==============================
 
     return res.status(200).json({
       ok: true,
+
       user: {
-        id: payload.sub,
-        username: payload.username,
-        email: payload.email
+        id: String(dbUser.id),
+        username: dbUser.username,
+        email: dbUser.email,
+
+        purchases,
+        keys,
+        spent
       }
     });
 
   } catch (error) {
-    console.error("ME ERROR:", error);
 
-    return res.status(401).json({
+    console.error(
+      "GET /api/auth/me error:",
+      error
+    );
+
+    // JWT недействителен / просрочен
+    if (
+      error?.code === "ERR_JWT_EXPIRED" ||
+      error?.code === "ERR_JWS_SIGNATURE_VERIFICATION_FAILED" ||
+      error?.code === "ERR_JWT_INVALID"
+    ) {
+      return res.status(401).json({
+        ok: false,
+        error: "Сессия недействительна."
+      });
+    }
+
+    return res.status(500).json({
       ok: false,
-      error: "Сессия недействительна или истекла."
+      error: "Ошибка сервера."
     });
   }
 }
+```
