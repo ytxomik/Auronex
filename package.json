@@ -1,13 +1,11 @@
-```json
 {
-  "name": "auronex",
-  "version": "1.0.0",
-  "private": true,
-  "dependencies": {
-    "@neondatabase/serverless": "^1.0.2",
-    "bcryptjs": "^3.0.2",
-    "jose": "^6.0.10",
-    "jsonwebtoken": "^9.0.2"
-  }
+"name": "auronex",
+"version": "1.0.0",
+"private": true,
+"dependencies": {
+"@neondatabase/serverless": "^1.0.2",
+"bcryptjs": "^3.0.2",
+"jose": "^6.0.10",
+"jsonwebtoken": "^9.0.2"
 }
-```
+}
