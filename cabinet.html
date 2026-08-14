@@ -1,1237 +1,742 @@
 
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Личный кабинет — Auronex</title>
-
-    <link
-        rel="icon"
-        type="image/png"
-        href="assets/logo.png"
-    >
-
-    <style>
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-
-        html,
-        body {
-            min-height: 100%;
-        }
-
-
-        body {
-            min-height: 100vh;
-
-            font-family:
-                Arial,
-                Helvetica,
-                sans-serif;
-
-            color: #fff;
-
-            background:
-                radial-gradient(
-                    circle at 50% 0%,
-                    rgba(124,58,237,.16),
-                    transparent 32%
-                ),
-                #050507;
-
-            overflow-x: hidden;
-        }
-
-
-        /* =========================================
-           BACKGROUND
-           ========================================= */
-
-        .glow {
-            position: fixed;
-
-            width: 600px;
-            height: 600px;
-
-            left: 50%;
-            top: 35%;
-
-            transform:
-                translate(-50%, -50%);
-
-            border-radius: 50%;
-
-            background:
-                radial-gradient(
-                    circle,
-                    rgba(139,92,246,.13),
-                    transparent 68%
-                );
-
-            filter: blur(35px);
-
-            pointer-events: none;
-
-            animation:
-                glowMove 8s ease-in-out
-                infinite alternate;
-        }
-
-
-        /* =========================================
-           HEADER
-           ========================================= */
-
-        .header {
-            position: relative;
-
-            z-index: 20;
-
-            height: 76px;
-
-            display: flex;
-            align-items: center;
-
-            padding: 0 32px;
-
-            background:
-                rgba(5,5,8,.86);
-
-            border-bottom:
-                1px solid
-                rgba(255,255,255,.07);
-
-            backdrop-filter:
-                blur(20px);
-        }
-
-
-        .brand {
-            display: flex;
-            align-items: center;
-
-            gap: 10px;
-
-            color: #fff;
-
-            text-decoration: none;
-        }
-
-
-        .brand img {
-            width: 42px;
-            height: 42px;
-
-            object-fit: contain;
-
-            filter:
-                drop-shadow(
-                    0 0 14px
-                    rgba(168,85,247,.75)
-                );
-        }
-
-
-        .brand-name {
-            font-size: 20px;
-
-            font-weight: 900;
-
-            letter-spacing: 3px;
-        }
-
-
-        .nav {
-            display: flex;
-
-            align-items: center;
-
-            gap: 25px;
-
-            margin-left: auto;
-
-            margin-right: 60px;
-        }
-
-
-        .nav a {
-            color: #9999a3;
-
-            text-decoration: none;
-
-            font-size: 14px;
-
-            transition: .25s;
-        }
-
-
-        .nav a:hover {
-            color: #fff;
-        }
-
-
-        .logout-top {
-            padding:
-                10px 15px;
-
-            border-radius: 10px;
-
-            color: #fff !important;
-
-            background:
-                rgba(255,255,255,.05);
-
-            border:
-                1px solid
-                rgba(255,255,255,.10);
-        }
-
-
-        .logout-top:hover {
-            border-color:
-                rgba(168,85,247,.5);
-        }
-
-
-        /* =========================================
-           PAGE
-           ========================================= */
-
-        .page {
-            position: relative;
-
-            z-index: 5;
-
-            width: 100%;
-
-            max-width: 1200px;
-
-            margin: 0 auto;
-
-            padding:
-                55px 25px 90px;
-        }
-
-
-        .page-title {
-            margin-bottom: 8px;
-
-            font-size:
-                clamp(30px, 5vw, 46px);
-
-            font-weight: 900;
-
-            letter-spacing: -1px;
-        }
-
-
-        .page-subtitle {
-            color: #777782;
-
-            font-size: 14px;
-
-            margin-bottom: 35px;
-        }
-
-
-        /* =========================================
-           PROFILE
-           ========================================= */
-
-        .profile {
-            display: flex;
-
-            align-items: center;
-
-            gap: 22px;
-
-            padding: 25px;
-
-            margin-bottom: 25px;
-
-            border-radius: 22px;
-
-            background:
-                rgba(255,255,255,.045);
-
-            border:
-                1px solid
-                rgba(255,255,255,.09);
-
-            backdrop-filter:
-                blur(18px);
-        }
-
-
-        .avatar {
-            width: 72px;
-            height: 72px;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            flex-shrink: 0;
-
-            border-radius: 20px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #7c3aed,
-                    #a855f7
-                );
-
-            font-size: 28px;
-
-            font-weight: 900;
-
-            box-shadow:
-                0 12px 35px
-                rgba(124,58,237,.25);
-        }
-
-
-        .profile-info {
-            flex: 1;
-        }
-
-
-        .profile-name {
-            font-size: 21px;
-
-            font-weight: 800;
-
-            margin-bottom: 7px;
-        }
-
-
-        .profile-email {
-            color: #777782;
-
-            font-size: 13px;
-        }
-
-
-        .status {
-            display: inline-flex;
-
-            align-items: center;
-
-            gap: 7px;
-
-            padding:
-                8px 12px;
-
-            border-radius: 999px;
-
-            color: #86efac;
-
-            background:
-                rgba(34,197,94,.08);
-
-            border:
-                1px solid
-                rgba(34,197,94,.15);
-
-            font-size: 12px;
-
-            font-weight: 700;
-        }
-
-
-        .status-dot {
-            width: 7px;
-            height: 7px;
-
-            border-radius: 50%;
-
-            background: #22c55e;
-
-            box-shadow:
-                0 0 10px
-                rgba(34,197,94,.8);
-        }
-
-
-        /* =========================================
-           STATISTICS
-           ========================================= */
-
-        .stats {
-            display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
-            gap: 18px;
-
-            margin-bottom: 35px;
-        }
-
-
-        .stat {
-            padding: 25px;
-
-            border-radius: 20px;
-
-            background:
-                rgba(255,255,255,.04);
-
-            border:
-                1px solid
-                rgba(255,255,255,.08);
-
-            transition: .3s;
-        }
-
-
-        .stat:hover {
-            transform:
-                translateY(-4px);
-
-            border-color:
-                rgba(168,85,247,.3);
-
-            box-shadow:
-                0 15px 45px
-                rgba(124,58,237,.10);
-        }
-
-
-        .stat-icon {
-            font-size: 25px;
-
-            margin-bottom: 17px;
-        }
-
-
-        .stat-value {
-            font-size: 29px;
-
-            font-weight: 900;
-
-            margin-bottom: 5px;
-        }
-
-
-        .stat-title {
-            color: #777782;
-
-            font-size: 12px;
-        }
-
-
-        /* =========================================
-           CONTENT GRID
-           ========================================= */
-
-        .content-grid {
-            display: grid;
-
-            grid-template-columns:
-                1.35fr .65fr;
-
-            gap: 22px;
-        }
-
-
-        .panel {
-            padding: 25px;
-
-            border-radius: 22px;
-
-            background:
-                rgba(255,255,255,.04);
-
-            border:
-                1px solid
-                rgba(255,255,255,.08);
-
-            backdrop-filter:
-                blur(18px);
-        }
-
-
-        .panel-header {
-            display: flex;
-
-            align-items: center;
-            justify-content: space-between;
-
-            margin-bottom: 22px;
-        }
-
-
-        .panel-title {
-            font-size: 18px;
-
-            font-weight: 800;
-        }
-
-
-        .panel-link {
-            color: #b47cff;
-
-            text-decoration: none;
-
-            font-size: 12px;
-        }
-
-
-        /* =========================================
-           PURCHASES
-           ========================================= */
-
-        .purchase {
-            display: flex;
-
-            align-items: center;
-
-            gap: 15px;
-
-            padding:
-                15px 0;
-
-            border-bottom:
-                1px solid
-                rgba(255,255,255,.06);
-        }
-
-
-        .purchase:last-child {
-            border-bottom: 0;
-
-            padding-bottom: 0;
-        }
-
-
-        .purchase-icon {
-            width: 45px;
-            height: 45px;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            flex-shrink: 0;
-
-            border-radius: 13px;
-
-            background:
-                rgba(124,58,237,.10);
-
-            border:
-                1px solid
-                rgba(168,85,247,.15);
-
-            font-size: 19px;
-        }
-
-
-        .purchase-info {
-            flex: 1;
-        }
-
-
-        .purchase-name {
-            font-size: 14px;
-
-            font-weight: 700;
-
-            margin-bottom: 5px;
-        }
-
-
-        .purchase-date {
-            color: #666670;
-
-            font-size: 11px;
-        }
-
-
-        .purchase-price {
-            color: #c084fc;
-
-            font-size: 13px;
-
-            font-weight: 800;
-        }
-
-
-        /* =========================================
-           KEYS
-           ========================================= */
-
-        .key {
-            display: flex;
-
-            align-items: center;
-
-            justify-content: space-between;
-
-            gap: 12px;
-
-            padding: 15px;
-
-            margin-bottom: 12px;
-
-            border-radius: 13px;
-
-            background:
-                rgba(0,0,0,.20);
-
-            border:
-                1px solid
-                rgba(255,255,255,.06);
-        }
-
-
-        .key:last-child {
-            margin-bottom: 0;
-        }
-
-
-        .key-code {
-            color: #c4b5fd;
-
-            font-family:
-                monospace;
-
-            font-size: 12px;
-
-            word-break: break-all;
-        }
-
-
-        .key-status {
-            color: #86efac;
-
-            font-size: 10px;
-
-            white-space: nowrap;
-
-            font-weight: 700;
-        }
-
-
-        /* =========================================
-           EMPTY
-           ========================================= */
-
-        .empty {
-            padding: 35px 10px;
-
-            text-align: center;
-
-            color: #62626c;
-
-            font-size: 13px;
-        }
-
-
-        .empty-icon {
-            font-size: 35px;
-
-            margin-bottom: 12px;
-
-            opacity: .6;
-        }
-
-
-        /* =========================================
-           QUICK ACTIONS
-           ========================================= */
-
-        .actions {
-            display: grid;
-
-            grid-template-columns:
-                repeat(2, 1fr);
-
-            gap: 10px;
-
-            margin-top: 20px;
-        }
-
-
-        .action {
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            min-height: 45px;
-
-            padding: 10px;
-
-            border-radius: 11px;
-
-            color: #aaa;
-
-            text-decoration: none;
-
-            font-size: 12px;
-
-            background:
-                rgba(255,255,255,.035);
-
-            border:
-                1px solid
-                rgba(255,255,255,.07);
-
-            transition: .25s;
-        }
-
-
-        .action:hover {
-            color: #fff;
-
-            border-color:
-                rgba(168,85,247,.4);
-
-            background:
-                rgba(124,58,237,.07);
-        }
-
-
-        /* =========================================
-           FOOTER
-           ========================================= */
-
-        footer {
-            position: relative;
-
-            z-index: 5;
-
-            padding:
-                40px 20px;
-
-            text-align: center;
-
-            color: #4f4f58;
-
-            border-top:
-                1px solid
-                rgba(255,255,255,.06);
-        }
-
-
-        footer strong {
-            color: #fff;
-
-            letter-spacing: 2px;
-        }
-
-
-        /* =========================================
-           ANIMATION
-           ========================================= */
-
-        @keyframes glowMove {
-
-            from {
-                transform:
-                    translate(-50%,-50%)
-                    scale(.85);
-
-                opacity: .55;
-            }
-
-            to {
-                transform:
-                    translate(-50%,-50%)
-                    scale(1.15);
-
-                opacity: 1;
-            }
-        }
-
-
-        /* =========================================
-           MOBILE
-           ========================================= */
-
-        @media (max-width: 850px) {
-
-            .content-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .stats {
-                grid-template-columns:
-                    repeat(3, 1fr);
-            }
-
-            .nav {
-                display: none;
-            }
-
-        }
-
-
-        @media (max-width: 600px) {
-
-            .header {
-                height: 70px;
-
-                padding:
-                    0 18px;
-            }
-
-
-            .brand img {
-                width: 36px;
-                height: 36px;
-            }
-
-
-            .brand-name {
-                font-size: 17px;
-            }
-
-
-            .page {
-                padding:
-                    40px 16px 70px;
-            }
-
-
-            .profile {
-                align-items: flex-start;
-
-                flex-direction: column;
-            }
-
-
-            .stats {
-                grid-template-columns: 1fr;
-            }
-
-
-            .purchase {
-                align-items: flex-start;
-            }
-
-
-            .purchase-price {
-                display: none;
-            }
-
-
-            .panel {
-                padding: 20px;
-            }
-
-        }
-
-    </style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Личный кабинет — Auronex</title>
+<link rel="icon" type="image/png" href="assets/logo.png">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+    min-height:100vh;
+    font-family:Arial,Helvetica,sans-serif;
+    color:#fff;
+    background:
+        radial-gradient(circle at 50% 0%,rgba(124,58,237,.16),transparent 32%),
+        #050507;
+    overflow-x:hidden;
+}
+
+.glow{
+    position:fixed;
+    width:600px;
+    height:600px;
+    left:50%;
+    top:35%;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    background:radial-gradient(circle,rgba(139,92,246,.13),transparent 68%);
+    filter:blur(35px);
+    pointer-events:none;
+    animation:glowMove 8s ease-in-out infinite alternate;
+}
+
+.header{
+    position:relative;
+    z-index:20;
+    height:76px;
+    display:flex;
+    align-items:center;
+    padding:0 32px;
+    background:rgba(5,5,8,.86);
+    border-bottom:1px solid rgba(255,255,255,.07);
+    backdrop-filter:blur(20px);
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#fff;
+    text-decoration:none;
+}
+
+.brand img{
+    width:42px;
+    height:42px;
+    object-fit:contain;
+    filter:drop-shadow(0 0 14px rgba(168,85,247,.75));
+}
+
+.brand-name{
+    font-size:20px;
+    font-weight:900;
+    letter-spacing:3px;
+}
+
+.nav{
+    display:flex;
+    align-items:center;
+    gap:25px;
+    margin-left:auto;
+    margin-right:60px;
+}
+
+.nav a{
+    color:#9999a3;
+    text-decoration:none;
+    font-size:14px;
+}
+
+.nav a:hover{color:#fff}
+
+.logout-top{
+    padding:10px 15px;
+    border-radius:10px;
+    color:#fff!important;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.10);
+}
+
+.logout-top:hover{
+    border-color:rgba(168,85,247,.5);
+}
+
+.page{
+    position:relative;
+    z-index:5;
+    width:100%;
+    max-width:1200px;
+    margin:0 auto;
+    padding:55px 25px 90px;
+}
+
+.page-title{
+    margin-bottom:8px;
+    font-size:clamp(30px,5vw,46px);
+    font-weight:900;
+}
+
+.page-subtitle{
+    color:#777782;
+    font-size:14px;
+    margin-bottom:35px;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:22px;
+    padding:25px;
+    margin-bottom:25px;
+    border-radius:22px;
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.09);
+    backdrop-filter:blur(18px);
+}
+
+.avatar{
+    width:72px;
+    height:72px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    border-radius:20px;
+    background:linear-gradient(135deg,#7c3aed,#a855f7);
+    font-size:28px;
+    font-weight:900;
+    box-shadow:0 12px 35px rgba(124,58,237,.25);
+}
+
+.profile-info{flex:1}
+
+.profile-name{
+    font-size:21px;
+    font-weight:800;
+    margin-bottom:7px;
+}
+
+.profile-email{
+    color:#777782;
+    font-size:13px;
+}
+
+.status{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:8px 12px;
+    border-radius:999px;
+    color:#86efac;
+    background:rgba(34,197,94,.08);
+    border:1px solid rgba(34,197,94,.15);
+    font-size:12px;
+    font-weight:700;
+}
+
+.status-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#22c55e;
+    box-shadow:0 0 10px rgba(34,197,94,.8);
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+    margin-bottom:35px;
+}
+
+.stat{
+    padding:25px;
+    border-radius:20px;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+    transition:.3s;
+}
+
+.stat:hover{
+    transform:translateY(-4px);
+    border-color:rgba(168,85,247,.3);
+}
+
+.stat-icon{
+    font-size:25px;
+    margin-bottom:17px;
+}
+
+.stat-value{
+    font-size:29px;
+    font-weight:900;
+    margin-bottom:5px;
+}
+
+.stat-title{
+    color:#777782;
+    font-size:12px;
+}
+
+.content-grid{
+    display:grid;
+    grid-template-columns:1.35fr .65fr;
+    gap:22px;
+}
+
+.panel{
+    padding:25px;
+    border-radius:22px;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+    backdrop-filter:blur(18px);
+}
+
+.panel-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:22px;
+}
+
+.panel-title{
+    font-size:18px;
+    font-weight:800;
+}
+
+.panel-link{
+    color:#b47cff;
+    text-decoration:none;
+    font-size:12px;
+}
+
+.empty{
+    padding:35px 10px;
+    text-align:center;
+    color:#62626c;
+    font-size:13px;
+}
+
+.empty-icon{
+    font-size:35px;
+    margin-bottom:12px;
+    opacity:.6;
+}
+
+.key{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:15px;
+    margin-bottom:12px;
+    border-radius:13px;
+    background:rgba(0,0,0,.20);
+    border:1px solid rgba(255,255,255,.06);
+}
+
+.key-code{
+    color:#c4b5fd;
+    font-family:monospace;
+    font-size:12px;
+}
+
+.key-status{
+    color:#86efac;
+    font-size:10px;
+    font-weight:700;
+}
+
+.actions{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+    margin-top:20px;
+}
+
+.action{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:45px;
+    padding:10px;
+    border-radius:11px;
+    color:#aaa;
+    text-decoration:none;
+    font-size:12px;
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.07);
+    transition:.25s;
+}
+
+.action:hover{
+    color:#fff;
+    border-color:rgba(168,85,247,.4);
+}
+
+footer{
+    padding:40px 20px;
+    text-align:center;
+    color:#4f4f58;
+    border-top:1px solid rgba(255,255,255,.06);
+}
+
+footer strong{
+    color:#fff;
+    letter-spacing:2px;
+}
+
+@keyframes glowMove{
+    from{transform:translate(-50%,-50%) scale(.85);opacity:.55}
+    to{transform:translate(-50%,-50%) scale(1.15);opacity:1}
+}
+
+@media(max-width:850px){
+    .content-grid{grid-template-columns:1fr}
+    .nav{display:none}
+}
+
+@media(max-width:600px){
+    .header{height:70px;padding:0 18px}
+    .brand img{width:36px;height:36px}
+    .brand-name{font-size:17px}
+    .page{padding:40px 16px 70px}
+    .profile{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+    .stats{grid-template-columns:1fr}
+}
+</style>
 </head>
-
 
 <body>
 
-
 <div class="glow"></div>
-
-
-
-<!-- =========================================
-     HEADER
-     ========================================= -->
 
 <header class="header">
 
+<a href="index.html" class="brand">
+    <img src="assets/logo.png" alt="Auronex">
+    <span class="brand-name">AURONEX</span>
+</a>
 
-    <a
-        href="index.html"
-        class="brand"
-    >
-
-        <img
-            src="assets/logo.png"
-            alt="Auronex"
-        >
-
-        <span class="brand-name">
-            AURONEX
-        </span>
-
+<nav class="nav">
+    <a href="index.html">Главная</a>
+    <a href="shop.html">Магазин</a>
+    <a href="cabinet.html" style="color:#c084fc;">
+        Кабинет
     </a>
-
-
-    <nav class="nav">
-
-        <a href="index.html">
-            Главная
-        </a>
-
-        <a href="shop.html">
-            Магазин
-        </a>
-
-        <a
-            href="cabinet.html"
-            style="color:#c084fc;"
-        >
-            Кабинет
-        </a>
-
-        <a
-            href="#"
-            class="logout-top"
-            onclick="logout()"
-        >
-            Выйти
-        </a>
-
-    </nav>
-
+    <a href="#" class="logout-top" onclick="logout()">
+        Выйти
+    </a>
+</nav>
 
 </header>
 
-
-
-<!-- =========================================
-     MAIN
-     ========================================= -->
-
 <main class="page">
 
+<h1 class="page-title">
+    Личный кабинет
+</h1>
 
-    <h1 class="page-title">
-        Личный кабинет
-    </h1>
+<p class="page-subtitle">
+    Управление аккаунтом, покупками и ключами.
+</p>
 
 
-    <p class="page-subtitle">
-        Управление аккаунтом, покупками и ключами.
-    </p>
+<section class="profile">
 
+<div class="avatar" id="avatar">A</div>
 
+<div class="profile-info">
 
-    <!-- PROFILE -->
+<div class="profile-name" id="profileName">
+    Загрузка...
+</div>
 
-    <section class="profile">
+<div class="profile-email" id="profileEmail">
+    Загрузка...
+</div>
 
+</div>
 
-        <div
-            class="avatar"
-            id="avatar"
-        >
-            A
-        </div>
+<div class="status">
+    <span class="status-dot"></span>
+    Аккаунт активен
+</div>
 
+</section>
 
-        <div class="profile-info">
 
-            <div
-                class="profile-name"
-                id="profileName"
-            >
-                Auronex User
-            </div>
+<section class="stats">
 
-            <div
-                class="profile-email"
-                id="profileEmail"
-            >
-                user@example.com
-            </div>
+<div class="stat">
+    <div class="stat-icon">🛒</div>
+    <div class="stat-value" id="purchaseCount">0</div>
+    <div class="stat-title">Покупок</div>
+</div>
 
-        </div>
+<div class="stat">
+    <div class="stat-icon">🔑</div>
+    <div class="stat-value" id="keyCount">0</div>
+    <div class="stat-title">Активных ключей</div>
+</div>
 
+<div class="stat">
+    <div class="stat-icon">💰</div>
+    <div class="stat-value" id="spent">0 ₽</div>
+    <div class="stat-title">Потрачено</div>
+</div>
 
-        <div class="status">
+</section>
 
-            <span class="status-dot"></span>
 
-            Аккаунт активен
+<section class="content-grid">
 
-        </div>
+<div class="panel">
 
+<div class="panel-header">
+    <h2 class="panel-title">
+        Последние покупки
+    </h2>
 
-    </section>
+    <a href="shop.html" class="panel-link">
+        В магазин →
+    </a>
+</div>
 
+<div id="purchases">
+    <div class="empty">
+        <div class="empty-icon">🛒</div>
+        Здесь пока нет покупок.
+    </div>
+</div>
 
+</div>
 
-    <!-- STATISTICS -->
 
-    <section class="stats">
+<div class="panel">
 
+<div class="panel-header">
+    <h2 class="panel-title">
+        Мои ключи
+    </h2>
+</div>
 
-        <div class="stat">
+<div id="keys">
+    <div class="empty">
+        <div class="empty-icon">🔑</div>
+        Активных ключей пока нет.
+    </div>
+</div>
 
-            <div class="stat-icon">
-                🛒
-            </div>
+<div class="actions">
 
-            <div
-                class="stat-value"
-                id="purchaseCount"
-            >
-                0
-            </div>
+<a href="shop.html" class="action">
+    Купить товар
+</a>
 
-            <div class="stat-title">
-                Покупок
-            </div>
+<a href="index.html" class="action">
+    На главную
+</a>
 
-        </div>
+</div>
 
+</div>
 
-        <div class="stat">
-
-            <div class="stat-icon">
-                🔑
-            </div>
-
-            <div
-                class="stat-value"
-                id="keyCount"
-            >
-                0
-            </div>
-
-            <div class="stat-title">
-                Активных ключей
-            </div>
-
-        </div>
-
-
-        <div class="stat">
-
-            <div class="stat-icon">
-                💰
-            </div>
-
-            <div
-                class="stat-value"
-                id="spent"
-            >
-                0 ₽
-            </div>
-
-            <div class="stat-title">
-                Потрачено
-            </div>
-
-        </div>
-
-
-    </section>
-
-
-
-    <!-- CONTENT -->
-
-    <section class="content-grid">
-
-
-        <!-- PURCHASES -->
-
-        <div class="panel">
-
-
-            <div class="panel-header">
-
-                <h2 class="panel-title">
-                    Последние покупки
-                </h2>
-
-                <a
-                    href="shop.html"
-                    class="panel-link"
-                >
-                    В магазин →
-                </a>
-
-            </div>
-
-
-            <div id="purchases">
-
-
-                <div class="empty">
-
-                    <div class="empty-icon">
-                        🛒
-                    </div>
-
-                    Здесь пока нет покупок.
-
-                </div>
-
-
-            </div>
-
-
-        </div>
-
-
-
-        <!-- KEYS -->
-
-        <div class="panel">
-
-
-            <div class="panel-header">
-
-                <h2 class="panel-title">
-                    Мои ключи
-                </h2>
-
-            </div>
-
-
-            <div id="keys">
-
-
-                <div class="empty">
-
-                    <div class="empty-icon">
-                        🔑
-                    </div>
-
-                    Активных ключей пока нет.
-
-                </div>
-
-
-            </div>
-
-
-            <div class="actions">
-
-                <a
-                    href="shop.html"
-                    class="action"
-                >
-                    Купить товар
-                </a>
-
-                <a
-                    href="index.html"
-                    class="action"
-                >
-                    На главную
-                </a>
-
-            </div>
-
-
-        </div>
-
-
-    </section>
-
+</section>
 
 </main>
 
-
-
-<!-- =========================================
-     FOOTER
-     ========================================= -->
-
 <footer>
-
-    <strong>
-        AURONEX
-    </strong>
-
-    <p>
-        Digital Marketplace © 2026
-    </p>
-
+<strong>AURONEX</strong>
+<p>Digital Marketplace © 2026</p>
 </footer>
-
 
 
 <script>
 
+const loggedIn =
+    localStorage.getItem("auronex_logged_in");
+
+
+/*
+ * Если пользователь не вошёл —
+ * отправляем его на страницу входа.
+ */
+
+if(loggedIn !== "true"){
+
+    window.location.replace("login.html");
+
+}else{
+
+    loadCabinet();
+
+}
+
+
+function loadCabinet(){
+
+    const user=JSON.parse(
+        localStorage.getItem("auronex_user")
+    );
+
+    const session=JSON.parse(
+        localStorage.getItem("auronex_session_user")
+    );
+
+
+    if(!user || !session){
+
+        localStorage.removeItem(
+            "auronex_logged_in"
+        );
+
+        localStorage.removeItem(
+            "auronex_session_user"
+        );
+
+        window.location.replace("login.html");
+
+        return;
+    }
+
+
     /*
-     * ==========================================
-     * ВРЕМЕННАЯ FRONTEND-ВЕРСИЯ
-     * ==========================================
-     *
-     * Сейчас профиль является демонстрационным.
-     *
-     * Когда подключим backend,
-     * эти данные будут загружаться
-     * из базы данных после авторизации.
+     * Профиль
      */
-
-
-    const demoUser = {
-
-        username: "Auronex User",
-
-        email: "user@example.com"
-
-    };
-
 
     document.getElementById(
         "profileName"
-    ).textContent =
-        demoUser.username;
+    ).textContent=user.username;
 
 
     document.getElementById(
         "profileEmail"
-    ).textContent =
-        demoUser.email;
+    ).textContent=user.email;
 
 
     document.getElementById(
         "avatar"
-    ).textContent =
-        demoUser.username
+    ).textContent=
+        user.username
             .charAt(0)
             .toUpperCase();
 
 
-
     /*
-     * ==========================================
-     * LOGOUT
-     * ==========================================
+     * Покупки
      */
 
-    function logout() {
+    const purchases=
+        Array.isArray(user.purchases)
+        ? user.purchases
+        : [];
 
-        /*
-         * Настоящую сессию будем удалять
-         * после подключения backend.
-         */
 
-        window.location.href =
-            "login.html";
+    document.getElementById(
+        "purchaseCount"
+    ).textContent=purchases.length;
 
+
+    /*
+     * Ключи
+     */
+
+    const keys=
+        Array.isArray(user.keys)
+        ? user.keys
+        : [];
+
+
+    document.getElementById(
+        "keyCount"
+    ).textContent=keys.length;
+
+
+    /*
+     * Потрачено
+     */
+
+    const spent=
+        Number(user.spent || 0);
+
+
+    document.getElementById(
+        "spent"
+    ).textContent=
+        spent.toLocaleString("ru-RU")+" ₽";
+
+
+    renderPurchases(purchases);
+    renderKeys(keys);
+}
+
+
+function renderPurchases(purchases){
+
+    const container=
+        document.getElementById("purchases");
+
+
+    if(!purchases.length){
+
+        container.innerHTML=`
+            <div class="empty">
+                <div class="empty-icon">🛒</div>
+                Здесь пока нет покупок.
+            </div>
+        `;
+
+        return;
     }
+
+
+    container.innerHTML=
+        purchases
+        .slice(-5)
+        .reverse()
+        .map(item=>`
+
+            <div class="purchase">
+
+                <div class="purchase-icon">
+                    🛍️
+                </div>
+
+                <div class="purchase-info">
+
+                    <div class="purchase-name">
+                        ${escapeHtml(item.name || "Товар")}
+                    </div>
+
+                    <div class="purchase-date">
+                        ${escapeHtml(item.date || "")}
+                    </div>
+
+                </div>
+
+                <div class="purchase-price">
+                    ${Number(item.price || 0).toLocaleString("ru-RU")} ₽
+                </div>
+
+            </div>
+
+        `)
+        .join("");
+}
+
+
+function renderKeys(keys){
+
+    const container=
+        document.getElementById("keys");
+
+
+    if(!keys.length){
+
+        container.innerHTML=`
+            <div class="empty">
+                <div class="empty-icon">🔑</div>
+                Активных ключей пока нет.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML=
+        keys
+        .map(key=>`
+
+            <div class="key">
+
+                <span class="key-code">
+                    ${escapeHtml(
+                        typeof key==="string"
+                        ? key
+                        : key.code || ""
+                    )}
+                </span>
+
+                <span class="key-status">
+                    АКТИВЕН
+                </span>
+
+            </div>
+
+        `)
+        .join("");
+}
+
+
+function escapeHtml(value){
+
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+}
+
+
+function logout(){
+
+    localStorage.removeItem(
+        "auronex_logged_in"
+    );
+
+    localStorage.removeItem(
+        "auronex_session_user"
+    );
+
+    localStorage.removeItem(
+        "auronex_remember"
+    );
+
+    window.location.replace("login.html");
+}
 
 </script>
 
-
 </body>
-
 </html>
 ```
