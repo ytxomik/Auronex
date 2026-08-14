@@ -1,9 +1,17 @@
-```js
-const { neon } = require("@neondatabase/serverless");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+
+import { neon } from "@neondatabase/serverless";
+import bcrypt from "bcryptjs";
+import { SignJWT } from "jose";
 
 const sql = neon(process.env.DATABASE_URL);
+
+function getSecret() {
+  if (!process.env.JWT_SECRET) {
+    throw new Error("JWT_SECRET is not configured");
+  }
+
+  return new TextEncoder().encode(process.env.JWT_SECRET);
+}
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -23,14 +31,6 @@ export default async function handler(req, res) {
       return res.status(400).json({
         ok: false,
         error: "Введите логин и пароль."
-      });
-    }
-
-    if (!process.env.JWT_SECRET) {
-      console.error("JWT_SECRET не установлен");
-      return res.status(500).json({
-        ok: false,
-        error: "JWT_SECRET не настроен на сервере."
       });
     }
 
@@ -63,17 +63,17 @@ export default async function handler(req, res) {
       });
     }
 
-    const token = jwt.sign(
-      {
-        sub: String(user.id),
-        username: user.username,
-        email: user.email
-      },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: "7d"
-      }
-    );
+    const token = await new SignJWT({
+      sub: String(user.id),
+      username: user.username,
+      email: user.email
+    })
+      .setProtectedHeader({
+        alg: "HS256"
+      })
+      .setIssuedAt()
+      .setExpirationTime("7d")
+      .sign(getSecret());
 
     res.setHeader(
       "Set-Cookie",
@@ -88,7 +88,6 @@ export default async function handler(req, res) {
         email: user.email
       }
     });
-
   } catch (error) {
     console.error("LOGIN ERROR:", error);
 
@@ -98,4 +97,4 @@ export default async function handler(req, res) {
     });
   }
 }
-```
+
