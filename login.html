@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Вход — Auronex</title>
+
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .auth-page {
+            min-height: calc(100vh - 76px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 440px;
+            padding: 40px;
+            border-radius: 28px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,.075),
+                    rgba(255,255,255,.025)
+                );
+
+            border: 1px solid rgba(255,255,255,.11);
+
+            backdrop-filter: blur(25px);
+
+            box-shadow:
+                0 30px 90px rgba(0,0,0,.45);
+        }
+
+        .auth-logo {
+            display: block;
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            margin: 0 auto 22px;
+
+            filter:
+                drop-shadow(
+                    0 0 20px
+                    rgba(168,85,247,.7)
+                );
+        }
+
+        .auth-card h1 {
+            text-align: center;
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .auth-description {
+            text-align: center;
+            color: #85858f;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .auth-group {
+            margin-bottom: 18px;
+        }
+
+        .auth-group label {
+            display: block;
+            margin-bottom: 8px;
+
+            color: #d4d4d8;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .auth-input {
+            width: 100%;
+            height: 52px;
+
+            padding: 0 16px;
+
+            color: #fff;
+            background: rgba(0,0,0,.25);
+
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: 13px;
+
+            outline: none;
+            font-size: 14px;
+
+            transition: .25s;
+        }
+
+        .auth-input::placeholder {
+            color: #55555f;
+        }
+
+        .auth-input:focus {
+            border-color: rgba(168,85,247,.75);
+
+            box-shadow:
+                0 0 0 4px
+                rgba(168,85,247,.08);
+
+            background:
+                rgba(124,58,237,.05);
+        }
+
+        .password-wrap {
+            position: relative;
+        }
+
+        .password-wrap .auth-input {
+            padding-right: 48px;
+        }
+
+        .show-password {
+            position: absolute;
+
+            right: 14px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            border: 0;
+            background: transparent;
+
+            color: #777782;
+
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .show-password:hover {
+            color: #c084fc;
+        }
+
+        .auth-button {
+            width: 100%;
+            height: 53px;
+
+            margin-top: 8px;
+
+            border: 0;
+            border-radius: 14px;
+
+            color: #fff;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7c3aed,
+                    #a855f7
+                );
+
+            font-size: 14px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 12px 35px
+                rgba(124,58,237,.25);
+
+            transition: .3s;
+        }
+
+        .auth-button:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 18px 45px
+                rgba(168,85,247,.42);
+        }
+
+        .auth-button:disabled {
+            opacity: .55;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .message {
+            display: none;
+
+            margin-bottom: 18px;
+            padding: 12px 14px;
+
+            border-radius: 11px;
+
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .message.error {
+            display: block;
+
+            color: #fca5a5;
+
+            background:
+                rgba(239,68,68,.08);
+
+            border:
+                1px solid
+                rgba(239,68,68,.18);
+        }
+
+        .message.success {
+            display: block;
+
+            color: #86efac;
+
+            background:
+                rgba(34,197,94,.08);
+
+            border:
+                1px solid
+                rgba(34,197,94,.18);
+        }
+
+        .auth-register {
+            margin-top: 24px;
+
+            text-align: center;
+
+            color: #70707a;
+            font-size: 13px;
+        }
+
+        .auth-register a {
+            color: #c084fc;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .auth-register a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 700px) {
+            .auth-page {
+                padding: 40px 16px;
+            }
+
+            .auth-card {
+                padding: 30px 22px;
+                border-radius: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+
+    <a href="index.html" class="brand">
+
+        <img
+            src="assets/logo.png"
+            alt="Auronex"
+        >
+
+        <span class="brand-name">
+            AURONEX
+        </span>
+
+    </a>
+
+    <nav class="nav">
+
+        <a href="index.html">
+            Главная
+        </a>
+
+        <a href="shop.html">
+            Магазин
+        </a>
+
+        <a
+            href="login.html"
+            class="active"
+        >
+            Войти
+        </a>
+
+        <a href="register.html">
+            Регистрация
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="auth-page">
+
+    <section class="auth-card">
+
+        <img
+            class="auth-logo"
+            src="assets/logo.png"
+            alt="Auronex"
+        >
+
+        <h1>
+            С возвращением
+        </h1>
+
+        <p class="auth-description">
+            Войдите в свой аккаунт Auronex,
+            чтобы открыть личный кабинет.
+        </p>
+
+
+        <div
+            id="message"
+            class="message"
+        ></div>
+
+
+        <div class="auth-group">
+
+            <label for="login">
+                Email или имя пользователя
+            </label>
+
+            <input
+                id="login"
+                class="auth-input"
+                type="text"
+                placeholder="Введите Email или логин"
+                autocomplete="username"
+            >
+
+        </div>
+
+
+        <div class="auth-group">
+
+            <label for="password">
+                Пароль
+            </label>
+
+            <div class="password-wrap">
+
+                <input
+                    id="password"
+                    class="auth-input"
+                    type="password"
+                    placeholder="Введите пароль"
+                    autocomplete="current-password"
+                >
+
+                <button
+                    type="button"
+                    class="show-password"
+                    onclick="toggleLoginPassword()"
+                    aria-label="Показать пароль"
+                >
+                    👁
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <button
+            id="loginButton"
+            class="auth-button"
+            type="button"
+            onclick="loginUser()"
+        >
+            Войти
+        </button>
+
+
+        <div class="auth-register">
+
+            Нет аккаунта?
+
+            <a href="register.html">
+                Создать аккаунт
+            </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script src="js/auth.js"></script>
+
+<script>
+
+function toggleLoginPassword() {
+
+    const input =
+        document.getElementById("password");
+
+    const button =
+        document.querySelector(".show-password");
+
+    if (input.type === "password") {
+
+        input.type = "text";
+        button.textContent = "🙈";
+
+    } else {
+
+        input.type = "password";
+        button.textContent = "👁";
+
+    }
+}
+
+
+/* Enter = Войти */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Enter" &&
+            document.activeElement.tagName !== "BUTTON"
+        ) {
+            loginUser();
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
