@@ -1,22 +1,19 @@
-```js
 import { jwtVerify } from "jose";
 
 function getCookie(req, name) {
-  const raw = req.headers.cookie || "";
+  const cookieHeader = req.headers.cookie || "";
 
-  const cookies = raw.split(";").map((item) => item.trim());
+  const cookies = cookieHeader.split(";");
 
-  const cookie = cookies.find((item) =>
-    item.startsWith(name + "=")
-  );
+  for (const cookie of cookies) {
+    const [key, ...valueParts] = cookie.trim().split("=");
 
-  if (!cookie) {
-    return null;
+    if (key === name) {
+      return decodeURIComponent(valueParts.join("="));
+    }
   }
 
-  return decodeURIComponent(
-    cookie.substring(name.length + 1)
-  );
+  return null;
 }
 
 export default async function handler(req, res) {
@@ -33,12 +30,14 @@ export default async function handler(req, res) {
     if (!token) {
       return res.status(401).json({
         ok: false,
-        error: "Сессия не найдена."
+        error: "Вы не авторизованы."
       });
     }
 
-    if (!process.env.JWT_SECRET) {
-      console.error("JWT_SECRET не установлен");
+    const jwtSecret = process.env.JWT_SECRET;
+
+    if (!jwtSecret) {
+      console.error("JWT_SECRET отсутствует в Environment Variables");
 
       return res.status(500).json({
         ok: false,
@@ -46,14 +45,9 @@ export default async function handler(req, res) {
       });
     }
 
-    const secret = new TextEncoder().encode(
-      process.env.JWT_SECRET
-    );
+    const secret = new TextEncoder().encode(jwtSecret);
 
-    const { payload } = await jwtVerify(
-      token,
-      secret
-    );
+    const { payload } = await jwtVerify(token, secret);
 
     return res.status(200).json({
       ok: true,
@@ -69,8 +63,7 @@ export default async function handler(req, res) {
 
     return res.status(401).json({
       ok: false,
-      error: "Сессия недействительна."
+      error: "Сессия недействительна или истекла."
     });
   }
 }
-```
