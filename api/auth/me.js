@@ -1,5 +1,8 @@
 
 import { jwtVerify } from "jose";
+import { neon } from "@neondatabase/serverless";
+
+const sql = neon(process.env.DATABASE_URL);
 
 function getCookie(req, name) {
   const raw = req.headers.cookie || "";
@@ -26,10 +29,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const token = getCookie(
-      req,
-      "auronex_session"
-    );
+    const token = getCookie(req, "auronex_session");
 
     if (!token) {
       return res.status(401).json({
@@ -39,9 +39,20 @@ export default async function handler(req, res) {
     }
 
     if (!process.env.JWT_SECRET) {
+      console.error("JWT_SECRET отсутствует");
+
       return res.status(500).json({
         ok: false,
         error: "JWT_SECRET не настроен."
+      });
+    }
+
+    if (!process.env.DATABASE_URL) {
+      console.error("DATABASE_URL отсутствует");
+
+      return res.status(500).json({
+        ok: false,
+        error: "DATABASE_URL не настроен."
       });
     }
 
@@ -49,28 +60,68 @@ export default async function handler(req, res) {
       process.env.JWT_SECRET
     );
 
-    const result = await jwtVerify(
+    const { payload } = await jwtVerify(
       token,
       secret
     );
 
-    const payload = result.payload;
+    const userId = payload.sub;
+
+    if (!userId) {
+      return res.status(401).json({
+        ok: false,
+        error: "Сессия недействительна."
+      });
+    }
+
+    const result = await sql`
+      SELECT
+        id,
+        username,
+        email
+      FROM users
+      WHERE id = ${userId}
+      LIMIT 1
+    `;
+
+    if (!result || result.length === 0) {
+      return res.status(404).json({
+        ok: false,
+        error: "Пользователь не найден."
+      });
+    }
+
+    const user = result[0];
 
     return res.status(200).json({
       ok: true,
       user: {
-        id: payload.sub || null,
-        username: payload.username || null,
-        email: payload.email || null
+        id: String(user.id),
+        username: user.username,
+        email: user.email
       }
     });
 
   } catch (error) {
-    console.error("ME JWT ERROR:", error);
+    console.error("ME API ERROR:", error);
 
-    return res.status(401).json({
+    if (
+      error &&
+      (
+        error.code === "ERR_JWT_EXPIRED" ||
+        error.code === "ERR_JWS_SIGNATURE_VERIFICATION_FAILED" ||
+        error.code === "ERR_JWT_INVALID"
+      )
+    ) {
+      return res.status(401).json({
+        ok: false,
+        error: "Сессия недействительна."
+      });
+    }
+
+    return res.status(500).json({
       ok: false,
-      error: "Сессия недействительна."
+      error: "Ошибка сервера."
     });
   }
 }
