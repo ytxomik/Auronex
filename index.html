@@ -1,7 +1,9 @@
-
+```html
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -21,9 +23,316 @@
         rel="stylesheet"
         href="css/style.css"
     >
+
+    <style>
+
+        /* =================================================
+           HEADER — MENU RIGHT
+           ================================================= */
+
+        .site-header {
+            position: relative;
+            z-index: 1000;
+
+            width: 100%;
+            height: 76px;
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 32px;
+
+            background:
+                rgba(5, 5, 8, .82);
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,.07);
+
+            backdrop-filter:
+                blur(20px);
+
+            -webkit-backdrop-filter:
+                blur(20px);
+        }
+
+
+        /* LOGO */
+
+        .site-header .brand {
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+
+            text-decoration: none;
+
+            flex-shrink: 0;
+        }
+
+
+        .site-header .brand img {
+            width: 42px;
+            height: 42px;
+
+            object-fit: contain;
+
+            filter:
+                drop-shadow(
+                    0 0 13px
+                    rgba(168,85,247,.75)
+                );
+
+            transition: .3s;
+        }
+
+
+        .site-header .brand:hover img {
+            transform: scale(1.08);
+
+            filter:
+                drop-shadow(
+                    0 0 23px
+                    rgba(168,85,247,1)
+                );
+        }
+
+
+        .site-header .brand-text {
+            color: #fff;
+
+            font-size: 20px;
+
+            font-weight: 900;
+
+            letter-spacing: 3px;
+        }
+
+
+        /* MENU */
+
+        .site-header .main-nav {
+            display: flex;
+            align-items: center;
+
+            gap: 25px;
+
+            margin-left: auto;
+            margin-right: 35px;
+        }
+
+
+        .site-header .main-nav a {
+            position: relative;
+
+            color: #a1a1aa;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            white-space: nowrap;
+
+            transition: .25s;
+        }
+
+
+        .site-header .main-nav a:hover {
+            color: #fff;
+        }
+
+
+        .site-header .main-nav a::after {
+            content: "";
+
+            position: absolute;
+
+            left: 50%;
+            bottom: -7px;
+
+            width: 0;
+            height: 2px;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #7c3aed,
+                    #c084fc
+                );
+
+            transform:
+                translateX(-50%);
+
+            transition: .25s;
+        }
+
+
+        .site-header .main-nav a:hover::after {
+            width: 100%;
+        }
+
+
+        /* HEADER BUTTONS */
+
+        .site-header .header-actions {
+            display: flex;
+            align-items: center;
+
+            gap: 9px;
+
+            margin-left: 0;
+
+            flex-shrink: 0;
+        }
+
+
+        .site-header .login-btn,
+        .site-header .register-top-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            height: 40px;
+
+            padding: 0 16px;
+
+            border-radius: 11px;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            white-space: nowrap;
+
+            transition: .3s;
+        }
+
+
+        /* LOGIN */
+
+        .site-header .login-btn {
+            color: #fff;
+
+            background:
+                rgba(255,255,255,.04);
+
+            border:
+                1px solid
+                rgba(255,255,255,.13);
+        }
+
+
+        .site-header .login-btn:hover {
+            border-color: #a855f7;
+
+            background:
+                rgba(168,85,247,.09);
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        /* REGISTER */
+
+        .site-header .register-top-btn {
+            color: #fff;
+
+            font-weight: 700;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7c3aed,
+                    #a855f7
+                );
+
+            border:
+                1px solid
+                rgba(192,132,252,.35);
+
+            box-shadow:
+                0 7px 22px
+                rgba(124,58,237,.25);
+        }
+
+
+        .site-header .register-top-btn:hover {
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 12px 32px
+                rgba(168,85,247,.45);
+        }
+
+
+        /* =================================================
+           MOBILE HEADER
+           ================================================= */
+
+        @media (max-width: 800px) {
+
+            .site-header {
+                padding:
+                    0 20px;
+            }
+
+            .site-header .main-nav {
+                gap: 15px;
+
+                margin-right: 20px;
+            }
+
+        }
+
+
+        @media (max-width: 650px) {
+
+            .site-header {
+                height: 70px;
+            }
+
+            .site-header .main-nav {
+                display: none;
+            }
+
+            .site-header .header-actions {
+                margin-left: auto;
+            }
+
+            .site-header .brand img {
+                width: 36px;
+                height: 36px;
+            }
+
+            .site-header .brand-text {
+                font-size: 17px;
+            }
+
+            .site-header .login-btn,
+            .site-header .register-top-btn {
+                height: 38px;
+
+                padding:
+                    0 11px;
+
+                font-size: 12px;
+            }
+
+        }
+
+    </style>
+
 </head>
 
+
 <body>
+
 
 <!-- =====================================================
      HEADER
@@ -31,7 +340,8 @@
 
 <header class="site-header">
 
-    <!-- ЛОГОТИП -->
+
+    <!-- LOGO -->
 
     <a
         href="index.html"
@@ -50,7 +360,8 @@
     </a>
 
 
-    <!-- МЕНЮ -->
+
+    <!-- MENU -->
 
     <nav class="main-nav">
 
@@ -69,7 +380,8 @@
     </nav>
 
 
-    <!-- КНОПКИ СПРАВА -->
+
+    <!-- BUTTONS -->
 
     <div class="header-actions">
 
@@ -89,6 +401,7 @@
 
     </div>
 
+
 </header>
 
 
@@ -106,38 +419,27 @@
 
     <section class="hero">
 
-        <!-- Фиолетовое свечение -->
 
         <div class="glow"></div>
 
-        <!-- Круговая анимация -->
-
         <div class="hero-ring"></div>
 
-
-        <!-- Бейдж -->
 
         <div class="badge">
             AURONEX PLATFORM
         </div>
 
 
-        <!-- Заголовок -->
-
         <h1>
             AURONEX
         </h1>
 
-
-        <!-- Описание -->
 
         <p>
             Современная платформа для цифровых
             товаров, ключей и сервисов.
         </p>
 
-
-        <!-- Кнопки -->
 
         <div class="buttons">
 
@@ -158,6 +460,7 @@
 
         </div>
 
+
     </section>
 
 
@@ -168,8 +471,6 @@
 
     <section class="features">
 
-
-        <!-- БЫСТРЫЙ ДОСТУП -->
 
         <div class="feature">
 
@@ -190,7 +491,6 @@
         </div>
 
 
-        <!-- БЕЗОПАСНОСТЬ -->
 
         <div class="feature">
 
@@ -210,7 +510,6 @@
         </div>
 
 
-        <!-- ТОВАРЫ -->
 
         <div class="feature">
 
@@ -278,5 +577,6 @@
 
 
 </body>
+
 </html>
 ```
