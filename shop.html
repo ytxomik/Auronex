@@ -26,10 +26,6 @@
 
     <style>
 
-        /* =================================================
-           SHOP VISUALS
-           ================================================= */
-
         body {
             background:
                 radial-gradient(
@@ -53,22 +49,17 @@
         }
 
 
-        /* =================================================
-           BACKGROUND ANIMATION
-           ================================================= */
+        /* =========================
+           BACKGROUND
+           ========================= */
 
         .shop-glow {
             position: fixed;
-
             width: 600px;
             height: 600px;
-
             left: 50%;
             top: 35%;
-
-            transform:
-                translate(-50%,-50%);
-
+            transform: translate(-50%, -50%);
             border-radius: 50%;
 
             background:
@@ -79,12 +70,10 @@
                 );
 
             filter: blur(20px);
-
             pointer-events: none;
 
             animation:
-                shopGlow 7s ease-in-out
-                infinite alternate;
+                shopGlow 7s ease-in-out infinite alternate;
 
             z-index: 0;
         }
@@ -92,15 +81,12 @@
 
         .shop-ring {
             position: fixed;
-
             width: 800px;
             height: 800px;
-
             left: 50%;
             top: 40%;
 
-            transform:
-                translate(-50%,-50%);
+            transform: translate(-50%, -50%);
 
             border-radius: 50%;
 
@@ -111,27 +97,24 @@
             pointer-events: none;
 
             animation:
-                shopRotate 30s linear
-                infinite;
+                shopRotate 30s linear infinite;
 
             z-index: 0;
         }
 
 
-        /* =================================================
+        /* =========================
            HEADER
-           ================================================= */
+           ========================= */
 
         .shop-header {
             position: relative;
-
             z-index: 20;
 
             width: 100%;
             height: 76px;
 
             display: flex;
-
             align-items: center;
 
             padding: 0 32px;
@@ -150,13 +133,10 @@
 
         .shop-brand {
             display: flex;
-
             align-items: center;
-
             gap: 10px;
 
             text-decoration: none;
-
             color: #fff;
         }
 
@@ -190,31 +170,32 @@
 
         .shop-brand span {
             font-size: 20px;
-
             font-weight: 900;
-
             letter-spacing: 3px;
         }
 
 
         .shop-nav {
             display: flex;
-
             align-items: center;
 
             gap: 25px;
 
             margin-left: auto;
+            margin-right: 45px;
         }
 
 
- .shop-nav {
-    display: flex;
-    align-items: center;
-    gap: 25px;
-    margin-left: auto;
-    margin-right: 45px;
-}
+        .shop-nav a {
+            color: #85858e;
+            text-decoration: none;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            transition: .3s;
+        }
+
 
         .shop-nav a:hover {
             color: #fff;
@@ -226,23 +207,20 @@
         }
 
 
-        /* =================================================
+        /* =========================
            HERO
-           ================================================= */
+           ========================= */
 
         .shop-hero {
             position: relative;
-
             z-index: 5;
 
             min-height: 420px;
 
             display: flex;
-
             flex-direction: column;
 
             align-items: center;
-
             justify-content: center;
 
             text-align: center;
@@ -266,7 +244,6 @@
             color: #c084fc;
 
             font-size: 11px;
-
             font-weight: 700;
 
             letter-spacing: 3px;
@@ -285,7 +262,6 @@
             line-height: .9;
 
             font-weight: 950;
-
             letter-spacing: -6px;
 
             background:
@@ -297,7 +273,6 @@
                 );
 
             -webkit-background-clip: text;
-
             background-clip: text;
 
             color: transparent;
@@ -323,19 +298,17 @@
         }
 
 
-        /* =================================================
+        /* =========================
            PRODUCTS
-           ================================================= */
+           ========================= */
 
         .products {
             position: relative;
-
             z-index: 10;
 
             display: flex;
 
             justify-content: center;
-
             align-items: stretch;
 
             gap: 28px;
@@ -403,8 +376,7 @@
             left: 50%;
             top: -100px;
 
-            transform:
-                translateX(-50%);
+            transform: translateX(-50%);
 
             border-radius: 50%;
 
@@ -437,9 +409,9 @@
         }
 
 
-        /* =================================================
+        /* =========================
            PRODUCT ICON
-           ================================================= */
+           ========================= */
 
         .product-icon {
             position: relative;
@@ -474,6 +446,14 @@
         }
 
 
+        .product-icon img {
+            width: 55px;
+            height: 55px;
+
+            object-fit: contain;
+        }
+
+
         .product-card:hover .product-icon {
             transform:
                 translateY(-5px)
@@ -492,7 +472,6 @@
                 0 0 12px;
 
             font-size: 25px;
-
             font-weight: 800;
         }
 
@@ -512,9 +491,38 @@
         }
 
 
-        /* =================================================
+        /* =========================
+           CATEGORY
+           ========================= */
+
+        .product-category {
+            position: relative;
+
+            display: inline-block;
+
+            margin-top: 15px;
+
+            padding: 6px 11px;
+
+            border-radius: 999px;
+
+            color: #c084fc;
+
+            background:
+                rgba(124,58,237,.10);
+
+            border:
+                1px solid
+                rgba(168,85,247,.20);
+
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+
+        /* =========================
            PRICE
-           ================================================= */
+           ========================= */
 
         .price {
             position: relative;
@@ -534,15 +542,14 @@
         }
 
 
-        /* =================================================
+        /* =========================
            BUY BUTTON
-           ================================================= */
+           ========================= */
 
         .buy-btn {
             position: relative;
 
             width: 100%;
-
             height: 49px;
 
             border: 0;
@@ -559,7 +566,6 @@
                 );
 
             font-size: 14px;
-
             font-weight: 800;
 
             cursor: pointer;
@@ -588,13 +594,80 @@
         }
 
 
-        /* =================================================
+        /* =========================
+           LOADING
+           ========================= */
+
+        .products-loading {
+            width: 100%;
+
+            padding: 80px 20px;
+
+            text-align: center;
+
+            color: #888892;
+        }
+
+
+        .loading-spinner {
+            width: 45px;
+            height: 45px;
+
+            margin: 0 auto 20px;
+
+            border-radius: 50%;
+
+            border:
+                3px solid
+                rgba(255,255,255,.08);
+
+            border-top-color:
+                #a855f7;
+
+            animation:
+                spin 1s linear infinite;
+        }
+
+
+        /* =========================
+           EMPTY / ERROR
+           ========================= */
+
+        .products-message {
+            width: 100%;
+
+            padding: 80px 20px;
+
+            text-align: center;
+        }
+
+
+        .products-message-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+
+        .products-message h2 {
+            margin: 0 0 10px;
+
+            color: #fff;
+        }
+
+
+        .products-message p {
+            margin: 0;
+
+            color: #888892;
+        }
+
+
+        /* =========================
            FOOTER
-           ================================================= */
+           ========================= */
 
         .shop-footer {
             position: relative;
-
             z-index: 10;
 
             padding:
@@ -629,9 +702,9 @@
         }
 
 
-        /* =================================================
+        /* =========================
            ANIMATIONS
-           ================================================= */
+           ========================= */
 
         @keyframes shopGlow {
 
@@ -725,17 +798,23 @@
         }
 
 
-        /* =================================================
+        @keyframes spin {
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+
+        /* =========================
            MOBILE
-           ================================================= */
+           ========================= */
 
         @media (max-width: 700px) {
 
             .shop-header {
                 height: 70px;
-
-                padding:
-                    0 18px;
+                padding: 0 18px;
             }
 
 
@@ -752,6 +831,7 @@
 
             .shop-nav {
                 gap: 12px;
+                margin-right: 15px;
             }
 
 
@@ -808,22 +888,12 @@
 <body>
 
 
-<!-- =====================================================
-     BACKGROUND VISUALS
-     ===================================================== -->
-
 <div class="shop-glow"></div>
 
 <div class="shop-ring"></div>
 
 
-
-<!-- =====================================================
-     HEADER
-     ===================================================== -->
-
 <header class="shop-header">
-
 
     <a
         href="index.html"
@@ -868,11 +938,6 @@
 </header>
 
 
-
-<!-- =====================================================
-     HERO
-     ===================================================== -->
-
 <section class="shop-hero">
 
     <div class="shop-badge">
@@ -892,115 +957,23 @@
 </section>
 
 
+<section
+    class="products"
+    id="products"
+>
 
-<!-- =====================================================
-     PRODUCTS
-     ===================================================== -->
+    <div class="products-loading">
 
-<section class="products">
+        <div class="loading-spinner"></div>
 
-
-    <!-- PRODUCT 1 -->
-
-    <div class="product-card">
-
-        <div class="product-icon">
-            💻
+        <div>
+            Загрузка товаров...
         </div>
-
-        <h2>
-            Software Pro
-        </h2>
-
-        <p>
-            Профессиональное программное
-            обеспечение
-        </p>
-
-        <div class="price">
-            499 ₽
-        </div>
-
-        <button
-            class="buy-btn"
-            type="button"
-        >
-            Купить
-        </button>
 
     </div>
-
-
-
-    <!-- PRODUCT 2 -->
-
-    <div class="product-card">
-
-        <div class="product-icon">
-            🔑
-        </div>
-
-        <h2>
-            License Key
-        </h2>
-
-        <p>
-            Лицензионный ключ с мгновенной
-            активацией
-        </p>
-
-        <div class="price">
-            799 ₽
-        </div>
-
-        <button
-            class="buy-btn"
-            type="button"
-        >
-            Купить
-        </button>
-
-    </div>
-
-
-
-    <!-- PRODUCT 3 -->
-
-    <div class="product-card">
-
-        <div class="product-icon">
-            ⚡
-        </div>
-
-        <h2>
-            Premium Access
-        </h2>
-
-        <p>
-            Подписки и цифровые услуги
-        </p>
-
-        <div class="price">
-            299 ₽
-        </div>
-
-        <button
-            class="buy-btn"
-            type="button"
-        >
-            Купить
-        </button>
-
-    </div>
-
 
 </section>
 
-
-
-<!-- =====================================================
-     FOOTER
-     ===================================================== -->
 
 <footer class="shop-footer">
 
@@ -1015,8 +988,227 @@
 </footer>
 
 
-
 <script src="js/app.js"></script>
+
+
+<script>
+
+async function loadProducts() {
+
+    const container =
+        document.getElementById("products");
+
+    if (!container) {
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch("/api/products", {
+                method: "GET",
+                credentials: "same-origin",
+                headers: {
+                    "Accept": "application/json"
+                }
+            });
+
+
+        const data =
+            await response
+                .json()
+                .catch(() => ({}));
+
+
+        if (!response.ok || !data.ok) {
+
+            throw new Error(
+                data.error ||
+                "Не удалось загрузить товары."
+            );
+
+        }
+
+
+        const products =
+            Array.isArray(data.products)
+                ? data.products.filter(
+                    product => product.active !== false
+                )
+                : [];
+
+
+        if (products.length === 0) {
+
+            container.innerHTML = `
+
+                <div class="products-message">
+
+                    <div class="products-message-icon">
+                        🛒
+                    </div>
+
+                    <h2>
+                        Товаров пока нет
+                    </h2>
+
+                    <p>
+                        Новые товары скоро появятся.
+                    </p>
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        container.innerHTML =
+            products
+                .map(product => {
+
+                    const price =
+                        Number(product.price)
+                            .toLocaleString("ru-RU");
+
+
+                    const image =
+                        product.image_url
+                            ? `
+                                <img
+                                    src="${escapeHtml(product.image_url)}"
+                                    alt="${escapeHtml(product.name)}"
+                                >
+                              `
+                            : "💻";
+
+
+                    return `
+
+                        <div
+                            class="product-card"
+                            data-product-id="${escapeHtml(product.id)}"
+                        >
+
+                            <div class="product-icon">
+                                ${image}
+                            </div>
+
+
+                            <h2>
+                                ${escapeHtml(product.name)}
+                            </h2>
+
+
+                            <p>
+                                ${escapeHtml(
+                                    product.description ||
+                                    "Цифровой товар Auronex."
+                                )}
+                            </p>
+
+
+                            ${
+                                product.category_name
+                                    ? `
+                                        <div class="product-category">
+                                            ${escapeHtml(
+                                                product.category_name
+                                            )}
+                                        </div>
+                                      `
+                                    : ""
+                            }
+
+
+                            <div class="price">
+                                ${price} ₽
+                            </div>
+
+
+                            <button
+                                class="buy-btn"
+                                type="button"
+                                onclick="buyProduct(${Number(product.id)})"
+                            >
+                                Купить
+                            </button>
+
+                        </div>
+
+                    `;
+
+                })
+                .join("");
+
+
+    } catch (error) {
+
+        console.error(
+            "Auronex products error:",
+            error
+        );
+
+
+        container.innerHTML = `
+
+            <div class="products-message">
+
+                <div class="products-message-icon">
+                    ⚠️
+                </div>
+
+                <h2>
+                    Не удалось загрузить товары
+                </h2>
+
+                <p>
+                    ${escapeHtml(error.message)}
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+function escapeHtml(value) {
+
+    return String(value ?? "")
+
+        .replace(/&/g, "&amp;")
+
+        .replace(/</g, "&lt;")
+
+        .replace(/>/g, "&gt;")
+
+        .replace(/"/g, "&quot;")
+
+        .replace(/'/g, "&#039;");
+
+}
+
+
+function buyProduct(productId) {
+
+    window.location.href =
+        "product.html?id=" +
+        encodeURIComponent(productId);
+
+}
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    loadProducts
+);
+
+</script>
 
 
 </body>
