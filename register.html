@@ -9,146 +9,295 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body>
+<body class="auth-body">
 
-<header>
-    <div class="logo">AURONEX</div>
+    <!-- Анимированный фон -->
+    <div class="animated-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
 
-    <nav>
-        <a href="index.html">Главная</a>
-        <a href="shop.html">Магазин</a>
-        <a href="login.html">Войти</a>
-    </nav>
-</header>
+        <div class="wave wave-1"></div>
+        <div class="wave wave-2"></div>
+        <div class="wave wave-3"></div>
 
-
-<main class="auth-page">
-
-    <div class="auth-glow"></div>
-
-    <div class="auth-card">
-
-        <div class="auth-icon">✦</div>
-
-        <div class="badge">AURONEX ACCOUNT</div>
-
-        <h1>Создать аккаунт</h1>
-
-        <p class="auth-description">
-            Зарегистрируйтесь, чтобы покупать цифровые товары
-            и управлять своими покупками.
-        </p>
+        <span class="particle p1"></span>
+        <span class="particle p2"></span>
+        <span class="particle p3"></span>
+        <span class="particle p4"></span>
+        <span class="particle p5"></span>
+        <span class="particle p6"></span>
+        <span class="particle p7"></span>
+        <span class="particle p8"></span>
+    </div>
 
 
-        <form id="registerForm">
+    <!-- Верхняя панель -->
+    <header class="auth-header">
 
-            <label for="username">
-                Имя пользователя
-            </label>
-
-            <input
-                id="username"
-                name="username"
-                type="text"
-                placeholder="Введите имя"
-                minlength="3"
-                maxlength="24"
-                autocomplete="username"
-                required
-            >
+        <a href="index.html" class="brand">
+            <span class="brand-mark">A</span>
+            <span>AURONEX</span>
+        </a>
 
 
-            <label for="email">
-                Email
-            </label>
-
-            <input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="example@mail.com"
-                autocomplete="email"
-                required
-            >
+        <nav class="auth-nav">
+            <a href="index.html">Главная</a>
+            <a href="shop.html">Магазин</a>
+            <a href="#">Преимущества</a>
+            <a href="#">Поддержка</a>
+        </nav>
 
 
-            <label for="password">
-                Пароль
-            </label>
-
-            <input
-                id="password"
-                name="password"
-                type="password"
-                placeholder="Минимум 8 символов"
-                minlength="8"
-                autocomplete="new-password"
-                required
-            >
-
-
-            <label for="passwordConfirm">
-                Повторите пароль
-            </label>
-
-            <input
-                id="passwordConfirm"
-                name="passwordConfirm"
-                type="password"
-                placeholder="Повторите пароль"
-                minlength="8"
-                autocomplete="new-password"
-                required
-            >
-
-
-            <label class="terms">
-
-                <input
-                    id="terms"
-                    type="checkbox"
-                    required
-                >
-
-                <span>
-                    Я принимаю правила использования Auronex
-                </span>
-
-            </label>
-
-
-            <button
-                type="submit"
-                class="auth-button"
-            >
-                Создать аккаунт
-            </button>
-
-        </form>
-
-
-        <div
-            id="registerMessage"
-            class="auth-message"
-        ></div>
-
-
-        <div class="auth-footer">
-
-            Уже есть аккаунт?
-
-            <a href="login.html">
+        <div class="header-actions">
+            <a href="login.html" class="login-btn">
                 Войти
             </a>
 
+            <a href="register.html" class="register-top-btn">
+                Создать аккаунт
+            </a>
         </div>
 
-    </div>
-
-</main>
+    </header>
 
 
-<script src="js/app.js"></script>
+    <!-- Основная часть -->
+    <main class="register-page">
+
+
+        <!-- Левая часть -->
+        <section class="register-intro">
+
+            <div class="intro-label">
+                AURONEX ACCOUNT
+            </div>
+
+            <h1>
+                Создайте аккаунт
+                <span>Auronex</span>
+            </h1>
+
+            <p>
+                Получите доступ к цифровым товарам,
+                управляйте покупками и активируйте
+                свои ключи.
+            </p>
+
+        </section>
+
+
+        <!-- Форма -->
+        <section class="register-card">
+
+            <div class="form-icon">
+                <span>♙</span>
+            </div>
+
+
+            <div class="form-title">
+
+                <h2>
+                    Регистрация
+                </h2>
+
+                <p>
+                    Заполните форму, чтобы создать аккаунт
+                </p>
+
+            </div>
+
+
+            <form id="registerForm">
+
+
+                <div class="input-group">
+
+                    <label for="username">
+                        Имя пользователя
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            ◇
+                        </span>
+
+                        <input
+                            id="username"
+                            name="username"
+                            type="text"
+                            placeholder="Введите имя пользователя"
+                            minlength="3"
+                            maxlength="24"
+                            autocomplete="username"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="input-group">
+
+                    <label for="email">
+                        Email
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            @
+                        </span>
+
+                        <input
+                            id="email"
+                            name="email"
+                            type="email"
+                            placeholder="example@mail.com"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="input-group">
+
+                    <label for="password">
+                        Пароль
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            ◈
+                        </span>
+
+                        <input
+                            id="password"
+                            name="password"
+                            type="password"
+                            placeholder="Минимум 8 символов"
+                            minlength="8"
+                            autocomplete="new-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            data-target="password"
+                        >
+                            ◉
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="input-group">
+
+                    <label for="passwordConfirm">
+                        Повторите пароль
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            ◈
+                        </span>
+
+                        <input
+                            id="passwordConfirm"
+                            name="passwordConfirm"
+                            type="password"
+                            placeholder="Повторите пароль"
+                            minlength="8"
+                            autocomplete="new-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            data-target="passwordConfirm"
+                        >
+                            ◉
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <label class="terms">
+
+                    <input
+                        id="terms"
+                        type="checkbox"
+                        required
+                    >
+
+                    <span>
+                        Я принимаю
+                        <a href="#">
+                            правила использования
+                        </a>
+                        Auronex
+                    </span>
+
+                </label>
+
+
+
+                <button
+                    type="submit"
+                    class="create-account-btn"
+                >
+                    <span>
+                        Создать аккаунт
+                    </span>
+
+                    <b>→</b>
+                </button>
+
+
+                <div
+                    id="registerMessage"
+                    class="register-message"
+                ></div>
+
+            </form>
+
+
+
+            <div class="already-account">
+
+                <span>
+                    Уже есть аккаунт?
+                </span>
+
+                <a href="login.html">
+                    Войти в аккаунт
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="js/app.js"></script>
 
 </body>
 </html>
