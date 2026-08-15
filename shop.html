@@ -1,863 +1,1198 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
-    <title>Auronex Store</title>
+<title>Auronex Store</title>
 
-    <link
-        rel="icon"
-        type="image/png"
-        href="assets/logo.png"
-    >
+<link
+    rel="icon"
+    type="image/png"
+    href="assets/logo.png"
+>
 
-    <link
-        rel="stylesheet"
-        href="css/style.css"
-    >
+<link
+    rel="stylesheet"
+    href="css/style.css"
+>
 
-    <style>
+<style>
 
-        /* =================================================
-           SHOP
-           ================================================= */
+* {
+    box-sizing: border-box;
+}
 
-        body {
-            background:
-                radial-gradient(
-                    circle at 50% 0%,
-                    rgba(124,58,237,.20),
-                    transparent 35%
-                ),
-                radial-gradient(
-                    circle at 10% 50%,
-                    rgba(168,85,247,.10),
-                    transparent 30%
-                ),
-                radial-gradient(
-                    circle at 90% 70%,
-                    rgba(124,58,237,.10),
-                    transparent 30%
-                ),
-                #050507;
+body {
 
-            overflow-x: hidden;
-        }
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(124,58,237,.20),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 10% 50%,
+            rgba(168,85,247,.10),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 70%,
+            rgba(124,58,237,.10),
+            transparent 30%
+        ),
+        #050507;
 
+    overflow-x: hidden;
+}
 
-        /* =================================================
-           BACKGROUND
-           ================================================= */
 
-        .shop-glow {
-            position: fixed;
+/* =====================================================
+   BACKGROUND
+   ===================================================== */
 
-            width: 600px;
-            height: 600px;
+.shop-glow {
 
-            left: 50%;
-            top: 35%;
+    position: fixed;
 
-            transform:
-                translate(-50%,-50%);
+    width: 600px;
+    height: 600px;
 
-            border-radius: 50%;
+    left: 50%;
+    top: 35%;
 
-            background:
-                radial-gradient(
-                    circle,
-                    rgba(139,92,246,.18),
-                    transparent 68%
-                );
+    transform:
+        translate(-50%,-50%);
 
-            filter: blur(20px);
+    border-radius: 50%;
 
-            pointer-events: none;
+    background:
+        radial-gradient(
+            circle,
+            rgba(139,92,246,.18),
+            transparent 68%
+        );
 
-            animation:
-                shopGlow 7s ease-in-out
-                infinite alternate;
+    filter: blur(20px);
 
-            z-index: 0;
-        }
+    pointer-events: none;
 
+    animation:
+        shopGlow 7s ease-in-out
+        infinite alternate;
 
-        .shop-ring {
-            position: fixed;
+    z-index: 0;
+}
 
-            width: 800px;
-            height: 800px;
 
-            left: 50%;
-            top: 40%;
+.shop-ring {
 
-            transform:
-                translate(-50%,-50%);
+    position: fixed;
 
-            border-radius: 50%;
+    width: 800px;
+    height: 800px;
 
-            border:
-                1px solid
-                rgba(168,85,247,.06);
+    left: 50%;
+    top: 40%;
 
-            pointer-events: none;
+    transform:
+        translate(-50%,-50%);
 
-            animation:
-                shopRotate 30s linear
-                infinite;
+    border-radius: 50%;
 
-            z-index: 0;
-        }
+    border:
+        1px solid
+        rgba(168,85,247,.06);
 
+    pointer-events: none;
 
-        /* =================================================
-           HEADER
-           ================================================= */
+    animation:
+        shopRotate 30s linear
+        infinite;
 
-        .shop-header {
-            position: relative;
+    z-index: 0;
+}
 
-            z-index: 20;
 
-            width: 100%;
-            height: 76px;
+/* =====================================================
+   HEADER
+   ===================================================== */
 
-            display: flex;
+.shop-header {
 
-            align-items: center;
+    position: relative;
 
-            padding: 0 32px;
+    z-index: 20;
 
-            background:
-                rgba(5,5,8,.82);
+    width: 100%;
+    height: 76px;
 
-            border-bottom:
-                1px solid
-                rgba(255,255,255,.07);
+    display: flex;
 
-            backdrop-filter:
-                blur(20px);
-        }
+    align-items: center;
 
+    padding: 0 32px;
 
-        .shop-brand {
-            display: flex;
+    background:
+        rgba(5,5,8,.82);
 
-            align-items: center;
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.07);
 
-            gap: 10px;
+    backdrop-filter:
+        blur(20px);
+}
 
-            text-decoration: none;
 
-            color: #fff;
-        }
+.shop-brand {
 
+    display: flex;
 
-        .shop-brand img {
-            width: 42px;
-            height: 42px;
+    align-items: center;
 
-            object-fit: contain;
+    gap: 10px;
 
-            filter:
-                drop-shadow(
-                    0 0 13px
-                    rgba(168,85,247,.75)
-                );
+    text-decoration: none;
 
-            transition: .3s;
-        }
+    color: #fff;
+}
 
 
-        .shop-brand:hover img {
-            transform: scale(1.08);
+.shop-brand img {
 
-            filter:
-                drop-shadow(
-                    0 0 23px
-                    rgba(168,85,247,1)
-                );
-        }
+    width: 42px;
+    height: 42px;
 
+    object-fit: contain;
 
-        .shop-brand span {
-            font-size: 20px;
+    filter:
+        drop-shadow(
+            0 0 13px
+            rgba(168,85,247,.75)
+        );
 
-            font-weight: 900;
+    transition: .3s;
+}
 
-            letter-spacing: 3px;
-        }
 
+.shop-brand:hover img {
 
-        .shop-nav {
-            display: flex;
+    transform: scale(1.08);
 
-            align-items: center;
+    filter:
+        drop-shadow(
+            0 0 23px
+            rgba(168,85,247,1)
+        );
+}
 
-            gap: 25px;
 
-            margin-left: auto;
+.shop-brand span {
 
-            margin-right: 45px;
-        }
+    font-size: 20px;
 
+    font-weight: 900;
 
-        .shop-nav a {
-            color: #9999a3;
+    letter-spacing: 3px;
+}
 
-            text-decoration: none;
 
-            font-size: 14px;
+.shop-nav {
 
-            transition: .25s;
-        }
+    display: flex;
 
+    align-items: center;
 
-        .shop-nav a:hover {
-            color: #fff;
-        }
+    gap: 25px;
 
+    margin-left: auto;
 
-        .shop-nav .active {
-            color: #c084fc;
-        }
+    margin-right: 45px;
+}
 
 
-        /* =================================================
-           HERO
-           ================================================= */
+.shop-nav a {
 
-        .shop-hero {
-            position: relative;
+    color: #9999a3;
 
-            z-index: 5;
+    text-decoration: none;
 
-            min-height: 420px;
+    font-size: 14px;
 
-            display: flex;
+    transition: .25s;
+}
 
-            flex-direction: column;
 
-            align-items: center;
+.shop-nav a:hover {
 
-            justify-content: center;
+    color: #fff;
+}
 
-            text-align: center;
 
-            padding: 80px 20px 60px;
-        }
+.shop-nav .active {
 
+    color: #c084fc;
+}
 
-        .shop-badge {
-            padding: 9px 18px;
 
-            border-radius: 999px;
+.profile-link {
 
-            border:
-                1px solid
-                rgba(168,85,247,.35);
+    padding:
+        9px 14px;
 
-            background:
-                rgba(124,58,237,.08);
+    border-radius:
+        10px;
 
-            color: #c084fc;
+    background:
+        rgba(124,58,237,.10);
 
-            font-size: 11px;
+    border:
+        1px solid
+        rgba(168,85,247,.20);
+}
 
-            font-weight: 700;
 
-            letter-spacing: 3px;
+/* =====================================================
+   HERO
+   ===================================================== */
 
-            animation:
-                shopAppear .7s ease-out;
-        }
+.shop-hero {
 
+    position: relative;
 
-        .shop-hero h1 {
-            margin: 25px 0 0;
+    z-index: 5;
 
-            font-size:
-                clamp(70px,12vw,145px);
+    min-height: 420px;
 
-            line-height: .9;
+    display: flex;
 
-            font-weight: 950;
+    flex-direction: column;
 
-            letter-spacing: -6px;
+    align-items: center;
 
-            background:
-                linear-gradient(
-                    180deg,
-                    #fff,
-                    #fff 38%,
-                    #c084fc
-                );
+    justify-content: center;
 
-            -webkit-background-clip: text;
+    text-align: center;
 
-            background-clip: text;
+    padding:
+        80px 20px 60px;
+}
 
-            color: transparent;
 
-            text-shadow:
-                0 0 60px
-                rgba(168,85,247,.12);
+.shop-badge {
 
-            animation:
-                shopTitle .8s ease-out;
-        }
+    padding:
+        9px 18px;
 
+    border-radius:
+        999px;
 
-        .shop-hero p {
-            margin: 30px 0 0;
+    border:
+        1px solid
+        rgba(168,85,247,.35);
 
-            color: #85858e;
+    background:
+        rgba(124,58,237,.08);
 
-            font-size: 17px;
+    color:
+        #c084fc;
 
-            animation:
-                shopAppear 1s ease-out;
-        }
+    font-size:
+        11px;
 
+    font-weight:
+        700;
 
-        /* =================================================
-           PRODUCTS
-           ================================================= */
+    letter-spacing:
+        3px;
 
-        .products {
-            position: relative;
+    animation:
+        shopAppear .7s ease-out;
+}
 
-            z-index: 10;
 
-            display: flex;
+.shop-hero h1 {
 
-            justify-content: center;
+    margin:
+        25px 0 0;
 
-            align-items: stretch;
+    font-size:
+        clamp(70px,12vw,145px);
 
-            gap: 28px;
+    line-height:
+        .9;
 
-            max-width: 1200px;
+    font-weight:
+        950;
 
-            margin: 0 auto;
+    letter-spacing:
+        -6px;
 
-            padding:
-                20px 30px 120px;
+    background:
+        linear-gradient(
+            180deg,
+            #fff,
+            #fff 38%,
+            #c084fc
+        );
 
-            flex-wrap: wrap;
-        }
+    -webkit-background-clip:
+        text;
 
+    background-clip:
+        text;
 
-        .product-card {
-            position: relative;
+    color:
+        transparent;
 
-            width: 340px;
+    animation:
+        shopTitle .8s ease-out;
+}
 
-            padding: 38px 30px;
 
-            text-align: center;
+.shop-hero p {
 
-            border-radius: 27px;
+    margin:
+        30px 0 0;
 
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(255,255,255,.075),
-                    rgba(255,255,255,.025)
-                );
+    color:
+        #85858e;
 
-            border:
-                1px solid
-                rgba(255,255,255,.11);
+    font-size:
+        17px;
+}
 
-            backdrop-filter:
-                blur(22px);
 
-            box-shadow:
-                0 20px 70px
-                rgba(0,0,0,.25);
+/* =====================================================
+   PRODUCTS
+   ===================================================== */
 
-            overflow: hidden;
+.products {
 
-            transition:
-                transform .4s,
-                border-color .4s,
-                box-shadow .4s;
+    position: relative;
 
-            animation:
-                cardAppear .7s ease-out;
-        }
+    z-index: 10;
 
+    display: flex;
 
-        .product-card::before {
-            content: "";
+    justify-content: center;
 
-            position: absolute;
+    align-items: stretch;
 
-            width: 180px;
-            height: 180px;
+    gap: 28px;
 
-            left: 50%;
-            top: -100px;
+    max-width: 1200px;
 
-            transform:
-                translateX(-50%);
+    margin:
+        0 auto;
 
-            border-radius: 50%;
+    padding:
+        20px 30px 120px;
 
-            background:
-                rgba(168,85,247,.15);
+    flex-wrap:
+        wrap;
+}
 
-            filter: blur(35px);
 
-            transition: .4s;
-        }
+.product-card {
 
+    position:
+        relative;
 
-        .product-card:hover {
-            transform:
-                translateY(-14px);
+    width:
+        340px;
 
-            border-color:
-                rgba(192,132,252,.55);
+    padding:
+        38px 30px;
 
-            box-shadow:
-                0 30px 80px
-                rgba(124,58,237,.24);
-        }
+    text-align:
+        center;
 
+    border-radius:
+        27px;
 
-        .product-card:hover::before {
-            transform:
-                translateX(-50%)
-                scale(1.5);
-        }
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.075),
+            rgba(255,255,255,.025)
+        );
 
+    border:
+        1px solid
+        rgba(255,255,255,.11);
 
-        /* =================================================
-           PRODUCT ICON
-           ================================================= */
+    backdrop-filter:
+        blur(22px);
 
-        .product-icon {
-            position: relative;
+    box-shadow:
+        0 20px 70px
+        rgba(0,0,0,.25);
 
-            width: 85px;
-            height: 85px;
+    overflow:
+        hidden;
 
-            display: flex;
+    transition:
+        transform .4s,
+        border-color .4s,
+        box-shadow .4s;
+}
 
-            align-items: center;
-            justify-content: center;
 
-            margin:
-                0 auto 25px;
+.product-card:hover {
 
-            border-radius: 23px;
+    transform:
+        translateY(-14px);
 
-            background:
-                rgba(124,58,237,.10);
+    border-color:
+        rgba(192,132,252,.55);
 
-            border:
-                1px solid
-                rgba(168,85,247,.22);
+    box-shadow:
+        0 30px 80px
+        rgba(124,58,237,.24);
+}
 
-            box-shadow:
-                0 15px 40px
-                rgba(124,58,237,.15);
 
-            font-size: 42px;
+.product-icon {
 
-            transition: .4s;
-        }
+    position:
+        relative;
 
+    width:
+        85px;
 
-        .product-card:hover .product-icon {
-            transform:
-                translateY(-5px)
-                scale(1.06);
+    height:
+        85px;
 
-            box-shadow:
-                0 20px 50px
-                rgba(168,85,247,.28);
-        }
+    display:
+        flex;
 
+    align-items:
+        center;
 
-        .product-card h2 {
-            position: relative;
+    justify-content:
+        center;
 
-            margin:
-                0 0 12px;
+    margin:
+        0 auto 25px;
 
-            font-size: 25px;
+    border-radius:
+        23px;
 
-            font-weight: 800;
-        }
+    background:
+        rgba(124,58,237,.10);
 
+    border:
+        1px solid
+        rgba(168,85,247,.22);
 
-        .product-card p {
-            position: relative;
+    font-size:
+        42px;
+}
 
-            min-height: 50px;
 
-            margin: 0;
+.product-card h2 {
 
-            color: #888892;
+    position:
+        relative;
 
-            line-height: 1.6;
+    margin:
+        0 0 12px;
 
-            font-size: 14px;
-        }
+    font-size:
+        25px;
 
+    font-weight:
+        800;
+}
 
-        /* =================================================
-           PRICE
-           ================================================= */
 
-        .price {
-            position: relative;
+.product-card p {
 
-            margin:
-                27px 0 22px;
+    position:
+        relative;
 
-            color: #c084fc;
+    min-height:
+        50px;
 
-            font-size: 32px;
+    margin:
+        0;
 
-            font-weight: 900;
+    color:
+        #888892;
 
-            text-shadow:
-                0 0 25px
-                rgba(168,85,247,.22);
-        }
+    line-height:
+        1.6;
 
+    font-size:
+        14px;
+}
 
-        /* =================================================
-           BUY BUTTON
-           ================================================= */
 
-        .buy-btn {
-            position: relative;
+.price {
 
-            width: 100%;
+    position:
+        relative;
 
-            height: 49px;
+    margin:
+        27px 0 22px;
 
-            border: 0;
+    color:
+        #c084fc;
 
-            border-radius: 13px;
+    font-size:
+        32px;
 
-            color: #fff;
+    font-weight:
+        900;
+}
 
-            background:
-                linear-gradient(
-                    135deg,
-                    #7c3aed,
-                    #a855f7
-                );
 
-            font-size: 14px;
+/* =====================================================
+   BUTTONS
+   ===================================================== */
 
-            font-weight: 800;
+.product-buttons {
 
-            cursor: pointer;
+    display:
+        grid;
 
-            box-shadow:
-                0 10px 30px
-                rgba(124,58,237,.25);
+    grid-template-columns:
+        1fr 1fr;
 
-            transition: .3s;
-        }
+    gap:
+        10px;
 
+    margin-top:
+        20px;
+}
 
-        .buy-btn:hover {
-            transform:
-                translateY(-2px);
 
-            box-shadow:
-                0 15px 40px
-                rgba(168,85,247,.42);
-        }
+.buy-btn,
+.activate-btn {
 
+    width:
+        100%;
 
-        .buy-btn:active {
-            transform:
-                translateY(0);
-        }
+    min-height:
+        49px;
 
+    border:
+        0;
 
-        .buy-btn:disabled {
-            opacity: .6;
+    border-radius:
+        13px;
 
-            cursor: not-allowed;
+    color:
+        #fff;
 
-            transform: none;
-        }
+    font-size:
+        13px;
 
+    font-weight:
+        800;
 
-        /* =================================================
-           PRODUCT VERSION
-           ================================================= */
+    cursor:
+        pointer;
 
-        .product-version {
-            position: relative;
+    transition:
+        .3s;
+}
 
-            margin-top: 12px;
 
-            color: #5f5f69;
+.buy-btn {
 
-            font-size: 11px;
-        }
+    background:
+        linear-gradient(
+            135deg,
+            #7c3aed,
+            #a855f7
+        );
 
+    box-shadow:
+        0 10px 30px
+        rgba(124,58,237,.25);
+}
 
-        /* =================================================
-           ERROR
-           ================================================= */
 
-        .shop-message {
-            width: 100%;
+.buy-btn:hover {
 
-            max-width: 500px;
+    transform:
+        translateY(-2px);
 
-            padding: 18px;
+    box-shadow:
+        0 15px 40px
+        rgba(168,85,247,.42);
+}
 
-            text-align: center;
 
-            border-radius: 15px;
+.activate-btn {
 
-            color: #fca5a5;
+    background:
+        rgba(255,255,255,.05);
 
-            background:
-                rgba(239,68,68,.07);
+    border:
+        1px solid
+        rgba(255,255,255,.10);
+}
 
-            border:
-                1px solid
-                rgba(239,68,68,.18);
-        }
 
+.activate-btn:hover {
 
-        /* =================================================
-           FOOTER
-           ================================================= */
+    border-color:
+        rgba(168,85,247,.45);
 
-        .shop-footer {
-            position: relative;
+    background:
+        rgba(124,58,237,.10);
+}
 
-            z-index: 10;
 
-            padding:
-                55px 20px 45px;
+.product-version {
 
-            text-align: center;
+    margin-top:
+        12px;
 
-            border-top:
-                1px solid
-                rgba(255,255,255,.06);
+    color:
+        #5f5f69;
 
-            color: #4f4f58;
-        }
+    font-size:
+        11px;
+}
 
 
-        .shop-footer h3 {
-            margin: 0;
+/* =====================================================
+   MESSAGE
+   ===================================================== */
 
-            color: #fff;
+.shop-message {
 
-            font-size: 18px;
+    width:
+        100%;
 
-            letter-spacing: 3px;
-        }
+    max-width:
+        500px;
 
+    padding:
+        20px;
 
-        .shop-footer p {
-            margin:
-                12px 0 0;
+    text-align:
+        center;
 
-            font-size: 13px;
-        }
+    border-radius:
+        15px;
 
+    color:
+        #fca5a5;
 
-        /* =================================================
-           ANIMATIONS
-           ================================================= */
+    background:
+        rgba(239,68,68,.07);
 
-        @keyframes shopGlow {
+    border:
+        1px solid
+        rgba(239,68,68,.18);
+}
 
-            from {
-                transform:
-                    translate(-50%,-50%)
-                    scale(.85);
 
-                opacity: .55;
-            }
+/* =====================================================
+   MODAL
+   ===================================================== */
 
-            to {
-                transform:
-                    translate(-50%,-50%)
-                    scale(1.15);
+.modal {
 
-                opacity: 1;
-            }
-        }
+    position:
+        fixed;
 
+    inset:
+        0;
 
-        @keyframes shopRotate {
+    z-index:
+        999;
 
-            from {
-                transform:
-                    translate(-50%,-50%)
-                    rotate(0deg);
-            }
+    display:
+        none;
 
-            to {
-                transform:
-                    translate(-50%,-50%)
-                    rotate(360deg);
-            }
-        }
+    align-items:
+        center;
 
+    justify-content:
+        center;
 
-        @keyframes shopAppear {
+    padding:
+        20px;
 
-            from {
-                opacity: 0;
+    background:
+        rgba(0,0,0,.70);
 
-                transform:
-                    translateY(20px);
-            }
+    backdrop-filter:
+        blur(12px);
+}
 
-            to {
-                opacity: 1;
 
-                transform:
-                    translateY(0);
-            }
-        }
+.modal.show {
 
+    display:
+        flex;
+}
 
-        @keyframes shopTitle {
 
-            from {
-                opacity: 0;
+.modal-box {
 
-                transform:
-                    translateY(30px)
-                    scale(.96);
-            }
+    width:
+        100%;
 
-            to {
-                opacity: 1;
+    max-width:
+        440px;
 
-                transform:
-                    translateY(0)
-                    scale(1);
-            }
-        }
+    padding:
+        30px;
 
+    border-radius:
+        22px;
 
-        @keyframes cardAppear {
+    background:
+        #0b0b10;
 
-            from {
-                opacity: 0;
+    border:
+        1px solid
+        rgba(168,85,247,.25);
 
-                transform:
-                    translateY(30px);
-            }
+    box-shadow:
+        0 30px 100px
+        rgba(0,0,0,.55);
+}
 
-            to {
-                opacity: 1;
 
-                transform:
-                    translateY(0);
-            }
-        }
+.modal-box h2 {
 
+    margin-bottom:
+        10px;
 
-        /* =================================================
-           MOBILE
-           ================================================= */
+    font-size:
+        24px;
+}
 
-        @media (max-width: 700px) {
 
-            .shop-header {
-                height: 70px;
+.modal-box p {
 
-                padding:
-                    0 18px;
-            }
+    color:
+        #777782;
 
+    font-size:
+        13px;
 
-            .shop-brand img {
-                width: 36px;
-                height: 36px;
-            }
+    line-height:
+        1.6;
 
+    margin-bottom:
+        20px;
+}
 
-            .shop-brand span {
-                font-size: 17px;
-            }
 
+.key-input {
 
-            .shop-nav {
-                gap: 12px;
+    width:
+        100%;
 
-                margin-right: 0;
-            }
+    height:
+        52px;
 
+    padding:
+        0 15px;
 
-            .shop-nav a {
-                font-size: 12px;
-            }
+    border-radius:
+        12px;
 
+    border:
+        1px solid
+        rgba(255,255,255,.10);
 
-            .shop-hero {
-                min-height: 360px;
+    outline:
+        none;
 
-                padding:
-                    70px 18px 45px;
-            }
+    background:
+        rgba(255,255,255,.04);
 
+    color:
+        #fff;
 
-            .shop-hero h1 {
-                font-size:
-                    clamp(60px,20vw,95px);
+    font-family:
+        monospace;
 
-                letter-spacing: -4px;
-            }
+    font-size:
+        14px;
+}
 
 
-            .shop-hero p {
-                font-size: 15px;
-            }
+.key-input:focus {
 
+    border-color:
+        rgba(168,85,247,.55);
+}
 
-            .products {
-                padding:
-                    10px 18px 80px;
 
-                gap: 20px;
-            }
+.modal-buttons {
 
+    display:
+        grid;
 
-            .product-card {
-                width: 100%;
+    grid-template-columns:
+        1fr 1fr;
 
-                max-width: 380px;
+    gap:
+        10px;
 
-                padding:
-                    32px 24px;
-            }
+    margin-top:
+        15px;
+}
 
-        }
 
-    </style>
+.modal-btn {
+
+    min-height:
+        46px;
+
+    border-radius:
+        11px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.10);
+
+    background:
+        rgba(255,255,255,.04);
+
+    color:
+        #fff;
+
+    cursor:
+        pointer;
+
+    font-weight:
+        700;
+}
+
+
+.modal-btn.primary {
+
+    border:
+        0;
+
+    background:
+        linear-gradient(
+            135deg,
+            #7c3aed,
+            #a855f7
+        );
+}
+
+
+.modal-result {
+
+    display:
+        none;
+
+    margin-top:
+        15px;
+
+    padding:
+        14px;
+
+    border-radius:
+        12px;
+
+    font-size:
+        13px;
+}
+
+
+.modal-result.success {
+
+    display:
+        block;
+
+    color:
+        #86efac;
+
+    background:
+        rgba(34,197,94,.08);
+
+    border:
+        1px solid
+        rgba(34,197,94,.15);
+}
+
+
+.modal-result.error {
+
+    display:
+        block;
+
+    color:
+        #fca5a5;
+
+    background:
+        rgba(239,68,68,.08);
+
+    border:
+        1px solid
+        rgba(239,68,68,.15);
+}
+
+
+/* =====================================================
+   FOOTER
+   ===================================================== */
+
+.shop-footer {
+
+    position:
+        relative;
+
+    z-index:
+        10;
+
+    padding:
+        55px 20px 45px;
+
+    text-align:
+        center;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.06);
+
+    color:
+        #4f4f58;
+}
+
+
+.shop-footer h3 {
+
+    margin:
+        0;
+
+    color:
+        #fff;
+
+    font-size:
+        18px;
+
+    letter-spacing:
+        3px;
+}
+
+
+.shop-footer p {
+
+    margin:
+        12px 0 0;
+
+    font-size:
+        13px;
+}
+
+
+/* =====================================================
+   ANIMATIONS
+   ===================================================== */
+
+@keyframes shopGlow {
+
+    from {
+
+        transform:
+            translate(-50%,-50%)
+            scale(.85);
+
+        opacity:
+            .55;
+    }
+
+    to {
+
+        transform:
+            translate(-50%,-50%)
+            scale(1.15);
+
+        opacity:
+            1;
+    }
+}
+
+
+@keyframes shopRotate {
+
+    from {
+
+        transform:
+            translate(-50%,-50%)
+            rotate(0deg);
+    }
+
+    to {
+
+        transform:
+            translate(-50%,-50%)
+            rotate(360deg);
+    }
+}
+
+
+@keyframes shopAppear {
+
+    from {
+
+        opacity:
+            0;
+
+        transform:
+            translateY(20px);
+    }
+
+    to {
+
+        opacity:
+            1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+@keyframes shopTitle {
+
+    from {
+
+        opacity:
+            0;
+
+        transform:
+            translateY(30px)
+            scale(.96);
+    }
+
+    to {
+
+        opacity:
+            1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+/* =====================================================
+   MOBILE
+   ===================================================== */
+
+@media(max-width:700px) {
+
+    .shop-header {
+
+        height:
+            70px;
+
+        padding:
+            0 18px;
+    }
+
+
+    .shop-brand img {
+
+        width:
+            36px;
+
+        height:
+            36px;
+    }
+
+
+    .shop-brand span {
+
+        font-size:
+            17px;
+    }
+
+
+    .shop-nav {
+
+        gap:
+            10px;
+
+        margin-right:
+            0;
+    }
+
+
+    .shop-nav a {
+
+        font-size:
+            11px;
+    }
+
+
+    .shop-hero {
+
+        min-height:
+            360px;
+
+        padding:
+            70px 18px 45px;
+    }
+
+
+    .shop-hero h1 {
+
+        font-size:
+            clamp(60px,20vw,95px);
+
+        letter-spacing:
+            -4px;
+    }
+
+
+    .products {
+
+        padding:
+            10px 18px 80px;
+
+        gap:
+            20px;
+    }
+
+
+    .product-card {
+
+        width:
+            100%;
+
+        max-width:
+            380px;
+
+        padding:
+            32px 24px;
+    }
+
+
+    .product-buttons {
+
+        grid-template-columns:
+            1fr;
+    }
+
+}
+
+</style>
 
 </head>
 
@@ -865,18 +1200,10 @@
 <body>
 
 
-<!-- =====================================================
-     BACKGROUND
-     ===================================================== -->
-
 <div class="shop-glow"></div>
 
 <div class="shop-ring"></div>
 
-
-<!-- =====================================================
-     HEADER
-     ===================================================== -->
 
 <header class="shop-header">
 
@@ -897,7 +1224,10 @@
     </a>
 
 
-    <nav class="shop-nav">
+    <nav
+        class="shop-nav"
+        id="shopNav"
+    >
 
         <a href="index.html">
             Главная
@@ -910,11 +1240,17 @@
             Магазин
         </a>
 
-        <a href="login.html">
+        <a
+            href="login.html"
+            id="loginLink"
+        >
             Войти
         </a>
 
-        <a href="register.html">
+        <a
+            href="register.html"
+            id="registerLink"
+        >
             Регистрация
         </a>
 
@@ -923,21 +1259,15 @@
 </header>
 
 
-<!-- =====================================================
-     HERO
-     ===================================================== -->
-
 <section class="shop-hero">
 
     <div class="shop-badge">
         AURONEX STORE
     </div>
 
-
     <h1>
         STORE
     </h1>
-
 
     <p>
         Цифровые товары нового поколения
@@ -945,10 +1275,6 @@
 
 </section>
 
-
-<!-- =====================================================
-     PRODUCTS
-     ===================================================== -->
 
 <section
     class="products"
@@ -974,10 +1300,6 @@
 </section>
 
 
-<!-- =====================================================
-     FOOTER
-     ===================================================== -->
-
 <footer class="shop-footer">
 
     <h3>
@@ -991,17 +1313,210 @@
 </footer>
 
 
+<!-- =====================================================
+     ACTIVATE KEY MODAL
+     ===================================================== -->
+
+<div
+    class="modal"
+    id="keyModal"
+>
+
+    <div class="modal-box">
+
+        <h2>
+            Активация ключа
+        </h2>
+
+        <p id="modalProductText">
+            Введите ключ, полученный после покупки.
+        </p>
+
+        <input
+            type="text"
+            id="keyInput"
+            class="key-input"
+            placeholder="AURONEX-XXXX-XXXX"
+            autocomplete="off"
+            spellcheck="false"
+        >
+
+        <div
+            class="modal-result"
+            id="modalResult"
+        ></div>
+
+        <div class="modal-buttons">
+
+            <button
+                type="button"
+                class="modal-btn"
+                onclick="closeKeyModal()"
+            >
+                Отмена
+            </button>
+
+            <button
+                type="button"
+                class="modal-btn primary"
+                id="activateKeyButton"
+                onclick="activateKey()"
+            >
+                Активировать
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 <script src="js/app.js"></script>
 
 
 <script>
 
+const FUNPAY_URL =
+    "https://funpay.com/users/10151898/";
+
+
+let selectedProductId = null;
+
+
+/* =====================================================
+   HTML ESCAPE
+   ===================================================== */
+
+function escapeHtml(value) {
+
+    return String(value)
+
+        .replaceAll("&", "&amp;")
+
+        .replaceAll("<", "&lt;")
+
+        .replaceAll(">", "&gt;")
+
+        .replaceAll('"', "&quot;")
+
+        .replaceAll("'", "&#039;");
+}
+
+
+/* =====================================================
+   PRODUCT ICON
+   ===================================================== */
+
+function getProductIcon(category) {
+
+    switch (category) {
+
+        case "programs":
+            return "💻";
+
+        case "subscriptions":
+            return "⚡";
+
+        case "keys":
+            return "🔑";
+
+        default:
+            return "🛍️";
+    }
+}
+
+
+/* =====================================================
+   LOAD LOGIN STATE
+   ===================================================== */
+
+async function loadUserState() {
+
+    const loginLink =
+        document.getElementById("loginLink");
+
+    const registerLink =
+        document.getElementById("registerLink");
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/auth/me",
+                {
+                    method:
+                        "GET",
+
+                    credentials:
+                        "same-origin",
+
+                    cache:
+                        "no-store"
+                }
+            );
+
+
+        const data =
+            await response
+                .json()
+                .catch(
+                    () => ({})
+                );
+
+
+        if (
+            response.ok &&
+            data.ok &&
+            data.user
+        ) {
+
+            if (loginLink) {
+
+                loginLink.textContent =
+                    "Кабинет";
+
+                loginLink.href =
+                    "cabinet.html";
+
+                loginLink.classList.add(
+                    "profile-link"
+                );
+            }
+
+
+            if (registerLink) {
+
+                registerLink.style.display =
+                    "none";
+            }
+
+        }
+
+    } catch (error) {
+
+        console.warn(
+            "Auth check error:",
+            error
+        );
+    }
+}
+
+
+/* =====================================================
+   LOAD PRODUCTS
+   ===================================================== */
+
 async function loadProducts() {
 
     const container =
-        document.getElementById("products");
+        document.getElementById(
+            "products"
+        );
 
-    if (!container) return;
+    if (!container)
+        return;
+
 
     try {
 
@@ -1009,28 +1524,42 @@ async function loadProducts() {
             await fetch(
                 "/api/products",
                 {
-                    method: "GET",
-                    credentials: "same-origin",
-                    cache: "no-store"
+                    method:
+                        "GET",
+
+                    credentials:
+                        "same-origin",
+
+                    cache:
+                        "no-store"
                 }
             );
 
-        const data =
-            await response.json()
-                .catch(() => ({}));
 
-        if (!response.ok || !data.ok) {
+        const data =
+            await response
+                .json()
+                .catch(
+                    () => ({})
+                );
+
+
+        if (
+            !response.ok ||
+            !data.ok
+        ) {
 
             throw new Error(
                 data.error ||
                 "Не удалось загрузить товары."
             );
-
         }
 
 
         const products =
-            Array.isArray(data.products)
+            Array.isArray(
+                data.products
+            )
                 ? data.products
                 : [];
 
@@ -1070,8 +1599,7 @@ async function loadProducts() {
                         const price =
                             Number(
                                 product.price || 0
-                            )
-                            .toLocaleString(
+                            ).toLocaleString(
                                 "ru-RU"
                             );
 
@@ -1086,11 +1614,12 @@ async function loadProducts() {
                             product.version
                                 ? `
                                     <div class="product-version">
-                                        Версия ${escapeHtml(
+                                        Версия
+                                        ${escapeHtml(
                                             product.version
                                         )}
                                     </div>
-                                  `
+                                `
                                 : "";
 
 
@@ -1098,13 +1627,11 @@ async function loadProducts() {
 
                             <div
                                 class="product-card"
-                                data-product-id="${Number(product.id)}"
                             >
 
                                 <div class="product-icon">
                                     ${icon}
                                 </div>
-
 
                                 <h2>
                                     ${escapeHtml(
@@ -1112,27 +1639,45 @@ async function loadProducts() {
                                     )}
                                 </h2>
 
-
                                 <p>
                                     ${escapeHtml(
                                         product.description || ""
                                     )}
                                 </p>
 
-
                                 <div class="price">
                                     ${price} ₽
                                 </div>
 
+                                <div class="product-buttons">
 
-                                <button
-                                    class="buy-btn"
-                                    type="button"
-                                    onclick="buyProduct(${Number(product.id)}, this)"
-                                >
-                                    Купить
-                                </button>
+                                    <button
+                                        type="button"
+                                        class="buy-btn"
+                                        onclick="
+                                            buyProduct(
+                                                ${Number(product.id)},
+                                                this
+                                            )
+                                        "
+                                    >
+                                        Купить
+                                    </button>
 
+                                    <button
+                                        type="button"
+                                        class="activate-btn"
+                                        onclick="
+                                            openKeyModal(
+                                                ${Number(product.id)},
+                                                '${escapeHtml(product.name)}'
+                                            )
+                                        "
+                                    >
+                                        Активировать ключ
+                                    </button>
+
+                                </div>
 
                                 ${version}
 
@@ -1143,6 +1688,7 @@ async function loadProducts() {
                     }
                 )
                 .join("");
+
 
     } catch (error) {
 
@@ -1178,118 +1724,396 @@ async function loadProducts() {
             </div>
 
         `;
-
     }
-
 }
 
 
-function getProductIcon(category) {
+/* =====================================================
+   BUY
+   ===================================================== */
 
-    switch (category) {
-
-        case "programs":
-            return "💻";
-
-        case "subscriptions":
-            return "⚡";
-
-        case "keys":
-            return "🔑";
-
-        default:
-            return "🛍️";
-
-    }
-
-}
-
-
-function escapeHtml(value) {
-
-    return String(value)
-
-        .replaceAll(
-            "&",
-            "&amp;"
-        )
-
-        .replaceAll(
-            "<",
-            "&lt;"
-        )
-
-        .replaceAll(
-            ">",
-            "&gt;"
-        )
-
-        .replaceAll(
-            '"',
-            "&quot;"
-        )
-
-        .replaceAll(
-            "'",
-            "&#039;"
-        );
-
-}
-
-
-async function buyProduct(
+function buyProduct(
     productId,
     button
 ) {
 
     /*
-     * Пока это только тест.
+     * FunPay не предоставляет обычной
+     * кнопке сайта возможность автоматически
+     * создать заказ на стороне FunPay.
      *
-     * Реальную покупку подключим
-     * следующим этапом.
+     * Поэтому открываем страницу продавца.
      */
 
-    console.log(
-        "Выбран товар:",
-        productId
+    if (button) {
+
+        button.disabled =
+            true;
+
+        button.textContent =
+            "Открываем...";
+    }
+
+
+    window.open(
+        FUNPAY_URL,
+        "_blank",
+        "noopener,noreferrer"
     );
+
+
+    setTimeout(
+        () => {
+
+            if (button) {
+
+                button.disabled =
+                    false;
+
+                button.textContent =
+                    "Купить";
+            }
+
+        },
+        1000
+    );
+}
+
+
+/* =====================================================
+   OPEN KEY MODAL
+   ===================================================== */
+
+function openKeyModal(
+    productId,
+    productName
+) {
+
+    selectedProductId =
+        Number(productId);
+
+
+    const modal =
+        document.getElementById(
+            "keyModal"
+        );
+
+
+    const input =
+        document.getElementById(
+            "keyInput"
+        );
+
+
+    const text =
+        document.getElementById(
+            "modalProductText"
+        );
+
+
+    const result =
+        document.getElementById(
+            "modalResult"
+        );
+
+
+    if (text) {
+
+        text.textContent =
+            `Товар: ${productName}. Введите ключ, полученный после покупки.`;
+    }
+
+
+    if (input) {
+
+        input.value =
+            "";
+
+        input.focus();
+    }
+
+
+    if (result) {
+
+        result.className =
+            "modal-result";
+
+        result.textContent =
+            "";
+    }
+
+
+    if (modal) {
+
+        modal.classList.add(
+            "show"
+        );
+    }
+}
+
+
+/* =====================================================
+   CLOSE MODAL
+   ===================================================== */
+
+function closeKeyModal() {
+
+    const modal =
+        document.getElementById(
+            "keyModal"
+        );
+
+    if (modal) {
+
+        modal.classList.remove(
+            "show"
+        );
+    }
+
+    selectedProductId =
+        null;
+}
+
+
+/* =====================================================
+   ACTIVATE KEY
+   ===================================================== */
+
+async function activateKey() {
+
+    const input =
+        document.getElementById(
+            "keyInput"
+        );
+
+    const button =
+        document.getElementById(
+            "activateKeyButton"
+        );
+
+    const result =
+        document.getElementById(
+            "modalResult"
+        );
+
+
+    const key =
+        input
+            ? input.value.trim()
+            : "";
+
+
+    if (!selectedProductId) {
+
+        showModalResult(
+            "error",
+            "Товар не выбран."
+        );
+
+        return;
+    }
+
+
+    if (!key) {
+
+        showModalResult(
+            "error",
+            "Введите ключ."
+        );
+
+        return;
+    }
 
 
     if (button) {
 
-        const oldText =
-            button.textContent;
-
-        button.disabled = true;
+        button.disabled =
+            true;
 
         button.textContent =
-            "Подготовка...";
+            "Проверка...";
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/keys/activate",
+                {
+                    method:
+                        "POST",
+
+                    credentials:
+                        "same-origin",
+
+                    headers:
+                        {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                    body:
+                        JSON.stringify(
+                            {
+                                key_code:
+                                    key,
+
+                                product_id:
+                                    selectedProductId
+                            }
+                        )
+                }
+            );
+
+
+        const data =
+            await response
+                .json()
+                .catch(
+                    () => ({})
+                );
+
+
+        if (!response.ok || !data.ok) {
+
+            throw new Error(
+                data.error ||
+                "Не удалось активировать ключ."
+            );
+        }
+
+
+        showModalResult(
+            "success",
+            data.message ||
+            "Ключ успешно активирован!"
+        );
+
+
+        if (input) {
+
+            input.value =
+                "";
+        }
 
 
         setTimeout(
             () => {
 
-                button.disabled = false;
-
-                button.textContent =
-                    oldText;
-
-                alert(
-                    "Система покупки будет подключена следующим этапом."
-                );
+                window.location.href =
+                    "cabinet.html";
 
             },
-            500
+            1200
         );
 
-    }
 
+    } catch (error) {
+
+        console.error(
+            "Activation error:",
+            error
+        );
+
+
+        showModalResult(
+            "error",
+            error.message ||
+            "Ошибка активации."
+        );
+
+    } finally {
+
+        if (button) {
+
+            button.disabled =
+                false;
+
+            button.textContent =
+                "Активировать";
+        }
+    }
 }
 
+
+/* =====================================================
+   MODAL RESULT
+   ===================================================== */
+
+function showModalResult(
+    type,
+    message
+) {
+
+    const result =
+        document.getElementById(
+            "modalResult"
+        );
+
+    if (!result)
+        return;
+
+
+    result.className =
+        `modal-result ${type}`;
+
+    result.textContent =
+        message;
+}
+
+
+/* =====================================================
+   CLOSE BY BACKDROP
+   ===================================================== */
+
+document
+    .getElementById("keyModal")
+    ?.addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target.id ===
+                "keyModal"
+            ) {
+
+                closeKeyModal();
+            }
+        }
+    );
+
+
+/* =====================================================
+   ENTER IN KEY INPUT
+   ===================================================== */
+
+document
+    .getElementById("keyInput")
+    ?.addEventListener(
+        "keydown",
+        event => {
+
+            if (
+                event.key ===
+                "Enter"
+            ) {
+
+                activateKey();
+            }
+        }
+    );
+
+
+/* =====================================================
+   START
+   ===================================================== */
 
 document.addEventListener(
     "DOMContentLoaded",
     () => {
+
+        loadUserState();
 
         loadProducts();
 
@@ -1298,8 +2122,6 @@ document.addEventListener(
 
 </script>
 
-
 </body>
 
 </html>
-
