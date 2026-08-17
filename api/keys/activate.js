@@ -1,4 +1,3 @@
-
 import { jwtVerify } from "jose";
 import { neon } from "@neondatabase/serverless";
 
@@ -7,25 +6,34 @@ const sql = neon(process.env.DATABASE_URL);
 function getCookie(req, name) {
     const raw = req.headers.cookie || "";
 
-    const part = raw
-        .split(";")
-        .map(v => v.trim())
-        .find(v => v.startsWith(name + "="));
+    for (const part of raw.split(";")) {
+        const item = part.trim();
 
-    return part
-        ? decodeURIComponent(part.slice(name.length + 1))
-        : null;
+        if (item.startsWith(name + "=")) {
+            return decodeURIComponent(
+                item.slice(name.length + 1)
+            );
+        }
+    }
+
+    return null;
 }
 
-async function getUserFromSession(req) {
+function normalizeKey(value) {
+    return String(value || "")
+        .trim()
+        .toUpperCase();
+}
+
+async function getUserId(req) {
     const token = getCookie(req, "auronex_session");
 
     if (!token) {
-        throw new Error("Не авторизован.");
+        throw new Error("UNAUTHORIZED");
     }
 
     if (!process.env.JWT_SECRET) {
-        throw new Error("JWT_SECRET не настроен.");
+        throw new Error("JWT_SECRET_MISSING");
     }
 
     const secret = new TextEncoder().encode(
@@ -38,14 +46,10 @@ async function getUserFromSession(req) {
     );
 
     if (!payload.sub) {
-        throw new Error("Недействительная сессия.");
+        throw new Error("INVALID_SESSION");
     }
 
-    return {
-        id: Number(payload.sub),
-        username: payload.username,
-        email: payload.email
-    };
+    return String(payload.sub);
 }
 
 export default async function handler(req, res) {
@@ -59,37 +63,26 @@ export default async function handler(req, res) {
 
     try {
 
-        /*
-         * ==========================================
-         * 1. ПОЛУЧАЕМ ПОЛЬЗОВАТЕЛЯ
-         * ==========================================
-         */
-
-        const user = await getUserFromSession(req);
-
-        if (!Number.isInteger(user.id)) {
-            return res.status(401).json({
+        if (!process.env.DATABASE_URL) {
+            return res.status(500).json({
                 ok: false,
-                error: "Недействительный пользователь."
+                error: "DATABASE_URL не настроен."
             });
         }
 
-
-        /*
-         * ==========================================
-         * 2. ПОЛУЧАЕМ КЛЮЧ
-         * ==========================================
-         */
+        const userId = await getUserId(req);
 
         const body =
-            typeof req.body === "string"
-                ? JSON.parse(req.body)
-                : req.body || {};
+            typeof req.body === "object" && req.body
+                ? req.body
+                : {};
 
         const keyCode =
-            String(body.key || body.key_code || "")
-                .trim()
-                .toUpperCase();
+            normalizeKey(
+                body.key ||
+                body.key_code ||
+                body.code
+            );
 
         if (!keyCode) {
             return res.status(400).json({
@@ -98,14 +91,10 @@ export default async function handler(req, res) {
             });
         }
 
-
         /*
-         * ==========================================
-         * 3. НАХОДИМ КЛЮЧ
-         * ==========================================
+         * Ищем ключ.
          */
-
-        const keys = await sql`
+        const keyRows = await sql`
             SELECT
                 lk.id,
                 lk.key_code,
@@ -115,7 +104,11 @@ export default async function handler(req, res) {
                 lk.activated_at,
 
                 p.name AS product_name,
+                p.slug AS product_slug,
+                p.description AS product_description,
                 p.price AS product_price,
+                p.version AS product_version,
+                p.image_url AS product_image_url,
                 p.active AS product_active,
                 p.activation_limit
 
@@ -129,111 +122,96 @@ export default async function handler(req, res) {
             LIMIT 1
         `;
 
-        if (!keys.length) {
+        if (!keyRows.length) {
             return res.status(404).json({
                 ok: false,
-                error: "Ключ не найден."
+                error: "Такой ключ не найден."
             });
         }
 
-        const licenseKey = keys[0];
-
+        const key = keyRows[0];
 
         /*
-         * ==========================================
-         * 4. ПРОВЕРЯЕМ КЛЮЧ
-         * ==========================================
+         * Уже активирован.
          */
-
-        if (licenseKey.activated) {
+        if (key.activated) {
             return res.status(409).json({
                 ok: false,
                 error: "Этот ключ уже активирован."
             });
         }
 
-
         /*
-         * ==========================================
-         * 5. ПРОВЕРЯЕМ ТОВАР
-         * ==========================================
+         * Проверяем товар.
          */
-
-        if (!licenseKey.product_active) {
+        if (!key.product_active) {
             return res.status(400).json({
                 ok: false,
-                error: "Этот товар больше недоступен."
+                error: "Этот товар сейчас недоступен."
             });
         }
 
-
         /*
-         * ==========================================
-         * 6. ПОЛУЧАЕМ ЛИМИТ
-         * ==========================================
+         * Лимит активаций.
+         *
+         * Например:
+         * activation_limit = 1
+         *
+         * Пользователь может активировать
+         * один ключ этого товара.
          */
+        const limit =
+            Number(key.activation_limit || 1);
 
-        const activationLimit =
-            Number(licenseKey.activation_limit);
-
-
-        /*
-         * ==========================================
-         * 7. ПОЛУЧАЕМ СЧЁТЧИК
-         * ==========================================
-         */
-
-        const counters = await sql`
+        const counterRows = await sql`
             SELECT
                 id,
-                activation_count
+                user_id,
+                product_id,
+                activation_count,
+                updated_at
+
             FROM product_activation_counters
-            WHERE user_id = ${user.id}
-              AND product_id = ${licenseKey.product_id}
+
+            WHERE user_id = ${userId}
+              AND product_id = ${key.product_id}
+
             LIMIT 1
         `;
 
         const currentCount =
-            counters.length
-                ? Number(counters[0].activation_count)
+            counterRows.length
+                ? Number(
+                    counterRows[0].activation_count || 0
+                )
                 : 0;
 
-
-        /*
-         * ==========================================
-         * 8. ПРОВЕРЯЕМ ЛИМИТ
-         *
-         * activation_limit = 0
-         * означает отсутствие ограничения.
-         * ==========================================
-         */
-
-        if (
-            activationLimit > 0 &&
-            currentCount >= activationLimit
-        ) {
-            return res.status(429).json({
+        if (currentCount >= limit) {
+            return res.status(409).json({
                 ok: false,
                 error:
-                    `Лимит активаций этого товара достигнут (${activationLimit}).`
+                    `Лимит активаций для товара исчерпан. ` +
+                    `Разрешено: ${limit}.`
             });
         }
 
-
         /*
-         * ==========================================
-         * 9. АКТИВИРУЕМ КЛЮЧ
-         * ==========================================
+         * -----------------------------------------
+         * АКТИВАЦИЯ
+         * -----------------------------------------
+         *
+         * Сначала помечаем ключ активированным.
          */
 
-        const activatedKeys = await sql`
+        const activatedRows = await sql`
             UPDATE license_keys
+
             SET
                 activated = TRUE,
-                activated_by = ${user.id},
+                activated_by = ${userId},
                 activated_at = NOW()
 
-            WHERE id = ${licenseKey.id}
+            WHERE id = ${key.id}
               AND activated = FALSE
 
             RETURNING
@@ -246,68 +224,73 @@ export default async function handler(req, res) {
         `;
 
         /*
-         * Если другой запрос успел активировать
-         * этот же ключ раньше — не продолжаем.
+         * Защита от двойной активации,
+         * если два запроса пришли одновременно.
          */
-
-        if (!activatedKeys.length) {
+        if (!activatedRows.length) {
             return res.status(409).json({
                 ok: false,
-                error: "Этот ключ уже был активирован."
+                error: "Этот ключ уже активируется или был активирован."
             });
         }
 
+        /*
+         * Обновляем счётчик.
+         */
+        if (counterRows.length) {
+
+            await sql`
+                UPDATE product_activation_counters
+
+                SET
+                    activation_count =
+                        activation_count + 1,
+                    updated_at = NOW()
+
+                WHERE id = ${counterRows[0].id}
+            `;
+
+        } else {
+
+            await sql`
+                INSERT INTO product_activation_counters (
+                    user_id,
+                    product_id,
+                    activation_count,
+                    updated_at
+                )
+
+                VALUES (
+                    ${userId},
+                    ${key.product_id},
+                    1,
+                    NOW()
+                )
+            `;
+        }
 
         /*
-         * ==========================================
-         * 10. ОБНОВЛЯЕМ СЧЁТЧИК
-         * ==========================================
+         * Создаём покупку.
+         *
+         * Для ключевой активации subscription_id = NULL.
          */
-
-        await sql`
-            INSERT INTO product_activation_counters (
-                user_id,
-                product_id,
-                activation_count,
-                updated_at
-            )
-
-            VALUES (
-                ${user.id},
-                ${licenseKey.product_id},
-                1,
-                NOW()
-            )
-
-            ON CONFLICT (user_id, product_id)
-
-            DO UPDATE SET
-                activation_count =
-                    product_activation_counters.activation_count + 1,
-
-                updated_at = NOW()
-        `;
-
-
-        /*
-         * ==========================================
-         * 11. СОЗДАЁМ ПОКУПКУ
-         * ==========================================
-         */
-
-        const purchases = await sql`
+        const purchaseRows = await sql`
             INSERT INTO purchases (
                 user_id,
                 product_id,
+                subscription_id,
                 price,
-                status
+                status,
+                created_at
             )
 
             VALUES (
-                ${user.id},
-                ${licenseKey.product_id},
-                ${licenseKey.product_price},
-                'completed'
+                ${userId},
+                ${key.product_id},
+                NULL,
+                ${key.product_price || 0},
+                'completed',
+                NOW()
             )
 
             RETURNING
@@ -319,52 +302,123 @@ export default async function handler(req, res) {
                 created_at
         `;
 
-
-        /*
-         * ==========================================
-         * 12. ОТВЕТ
-         * ==========================================
-         */
+        const activatedKey =
+            activatedRows[0];
 
         return res.status(200).json({
+
             ok: true,
 
-            message: "Ключ успешно активирован.",
-
-            product: {
-                id: licenseKey.product_id,
-                name: licenseKey.product_name,
-                price: licenseKey.product_price
-            },
+            message:
+                "Ключ успешно активирован.",
 
             key: {
-                id: activatedKeys[0].id,
-                code: activatedKeys[0].key_code,
+                id: String(activatedKey.id),
+
+                key_code:
+                    activatedKey.key_code,
+
                 activated_at:
-                    activatedKeys[0].activated_at
+                    activatedKey.activated_at
             },
 
-            purchase: purchases[0],
+            product: {
+                id: String(key.product_id),
+
+                name:
+                    key.product_name,
+
+                slug:
+                    key.product_slug,
+
+                description:
+                    key.product_description,
+
+                price:
+                    key.product_price,
+
+                version:
+                    key.product_version,
+
+                image_url:
+                    key.product_image_url
+            },
 
             activation: {
-                count: currentCount + 1,
-                limit: activationLimit
-            }
+                count:
+                    currentCount + 1,
+
+                limit:
+                    limit
+            },
+
+            purchase: purchaseRows.length
+                ? {
+                    id:
+                        String(
+                            purchaseRows[0].id
+                        ),
+
+                    status:
+                        purchaseRows[0].status
+                }
+                : null
         });
 
     } catch (error) {
 
         console.error(
-            "Activate key error:",
+            "ACTIVATE KEY ERROR:",
             error
         );
 
+        if (
+            error &&
+            (
+                error.code === "ERR_JWT_EXPIRED" ||
+                error.code === "ERR_JWS_SIGNATURE_VERIFICATION_FAILED" ||
+                error.code === "ERR_JWT_INVALID"
+            )
+        ) {
+            return res.status(401).json({
+                ok: false,
+                error: "Сессия недействительна."
+            });
+        }
+
+        if (
+            error &&
+            error.message === "UNAUTHORIZED"
+        ) {
+            return res.status(401).json({
+                ok: false,
+                error: "Не авторизован."
+            });
+        }
+
+        if (
+            error &&
+            error.message === "JWT_SECRET_MISSING"
+        ) {
+            return res.status(500).json({
+                ok: false,
+                error: "JWT_SECRET не настроен."
+            });
+        }
+
+        if (
+            error &&
+            error.message === "INVALID_SESSION"
+        ) {
+            return res.status(401).json({
+                ok: false,
+                error: "Сессия недействительна."
+            });
+        }
+
         return res.status(500).json({
             ok: false,
-            error:
-                error.message ||
-                "Внутренняя ошибка сервера."
+            error: "Ошибка сервера при активации ключа."
         });
     }
 }
-
